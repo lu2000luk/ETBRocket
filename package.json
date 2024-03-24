@@ -26,6 +26,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@tauri-apps/api": "^1.5.3"
+		"@tauri-apps/api": "^1.5.3",
+		"lucide-svelte": "^0.363.0"
 	}
 }

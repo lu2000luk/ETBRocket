@@ -1,0 +1,7 @@
+[
+    {
+        "name": "Interpose Modloder",
+        "installScript": "someRandomThingThatItsGonnaGetSentToTheRustBackend()",
+        "modloaderCode": "interpose"
+    }
+]

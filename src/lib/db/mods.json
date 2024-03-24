@@ -1,0 +1,13 @@
+[
+    {
+        "name": "Spawner",
+        "author": "LazyRanchGuy",
+        "cover": "https://unsplash.it/120/120",
+        "description": "An item spawner",
+        "loader": "interpose",
+        "modVersion": "1.0.0",
+        "gameVersion": "Part 4",
+        "downloadLink": "",
+        "folder": "interpose_mods"
+    }
+]
