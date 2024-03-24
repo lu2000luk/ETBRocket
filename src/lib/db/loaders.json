@@ -2,6 +2,7 @@
     {
         "name": "Interpose Modloder",
         "installScript": "someRandomThingThatItsGonnaGetSentToTheRustBackend()",
-        "modloaderCode": "interpose"
+        "modloaderCode": "interpose",
+        "author":"THIS IS BOILERPLATE CODE (author 997326786184613909 on ds)"
     }
 ]
