@@ -1,5 +1,5 @@
 <script>
-    export let title = "Example";
+    export let name = "Example";
     export let description = "Example description";
     export let author = "lu2000luk";
     export let cover = "https://unsplash.it/120/120";
@@ -14,7 +14,7 @@
     <Img src={cover} alt="Mod" />
     <div class="details pl-2 pt-2 w-full flex justify-between">
         <div class="data">
-            <h2 class="text-2xl inter f600">{title}</h2>
+            <h2 class="text-2xl inter f600">{name}</h2>
             <h4 class="text-l inter f400 overflow-hidden line-clamp-2">{description}</h4>
             <p class="text-success text-s">{loader} modloader</p>
         </div>
