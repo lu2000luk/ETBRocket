@@ -2,3 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    :root {
+        /* Text Colors */
+        --text: #f8f1e7; /* Whiteish text color */
+        --text-muted: #a6a6a6; /* Light gray for muted text */
+        --text-inverted: #140a00; /* Dark brown for inverted text */
+
+        /* Background Colors */
+        --background: #140a00; /* Dark brown background color */
+        --background-alt: #291f13; /* Slightly darker alternative background */
+        --background-overlay: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay for backgrounds */
+
+        /* Primary Colors */
+        --primary: #f8a941; /* Orange primary color */
+        --primary-dark: #c67800; /* Darker shade of orange */
+        --primary-light: #ffcc80; /* Lighter shade of orange */
+
+        /* Secondary Colors */
+        --secondary: #489603; /* Green secondary color */
+        --secondary-dark: #2d6a00; /* Darker shade of green */
+        --secondary-light: #7bd46e; /* Lighter shade of green */
+
+        /* Accent Colors */
+        --accent: #ff9513; /* Bright orange accent color */
+        --accent-dark: #d17a00; /* Darker shade of orange for accent */
+        --accent-light: #ffc04d; /* Lighter shade of orange for accent */
+
+        /* Border Colors */
+        --border: #b3b3b3; /* Light gray border color */
+        --border-dark: #7f7f7f; /* Darker shade of gray for borders */
+        --border-light: #e6e6e6; /* Lighter shade of gray for borders */
+
+        /* Button Colors */
+        --button-background: #140a00; /* Default button background color */
+        --button-text: #f8f1e7; /* Default button text color */
+        --button-hover-background: #291f13; /* Background color on button hover */
+        --button-hover-text: #f8f1e7; /* Text color on button hover */
+
+        /* Link Colors */
+        --link: #489603; /* Default link color */
+        --link-hover: #7bd46e; /* Link color on hover */
+
+        /* Loading Indicator Colors */
+        --loading: #4a573f; /* Dark olive loading color */
+        --loading-background: rgba(20, 10, 0, 0.8); /* Semi-transparent background for loading indicators */
+
+        /* Error and Alert Colors */
+        --error: #cf0830; /* Red color for error messages */
+        --warning: #ff2d8f; /* Orange color for warning messages */
+        --success: #52ee52; /* Green color for success messages */
+        --info: #5aa4f3; /* Blue color for informational messages */
+    }
+}
