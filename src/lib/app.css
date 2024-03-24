@@ -1,6 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+    background: var(--background);
+}
+
+* {
+    color: var(--text);
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+}
+
+.inter {
+    font-family: "Inter", sans-serif;
+}
+.f600 {
+    font-weight: 600;
+}
+
+.f400 {
+    font-weight: 400;
+}
+
+[loading="true"] {
+    background: var(--loading);
+}
 
 @layer base {
     :root {
