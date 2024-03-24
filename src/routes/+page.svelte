@@ -1,12 +1,17 @@
 <script>
-    import Button from "$lib/ui/button.svelte"
-    import Download from "lucide-svelte/icons/download"
-    import Img from "$lib/ui/image.svelte"
-    import ModCard from "$lib/components/modcard.svelte"
+    import Button from "$lib/ui/button.svelte";
+    import Mod from "lucide-svelte/icons/blocks";
+    import Loaders from "lucide-svelte/icons/unplug";
+    import Discord from "lucide-svelte/icons/message-circle-code"
 </script>
 
-<ModCard cover="https://unsplash.it/121/120" description="Woah, another image!!1"/>
-<ModCard loader="UE4SS" />
-<ModCard author="Some Random Dude" />
-<ModCard description="Goofy ahh long description that no one is gonna read so imma cut it to just 2 lines of yapping about how u made the mod and how to use it, more info will be in the mod page"/>
-<ModCard title="Woah, an epik new title"/>
+<div class="flex justify-center mt-10 flex-wrap">
+    <h1 class="f600 text-5xl">Welcome to ETB Rocket!</h1>
+    <h3 class="text-xl">Your place to download and share EscapeTheBackrooms Mods</h3>
+</div>
+<br>
+<div class="flex justify-center flex-wrap">
+    <Button bg="secondary" ><Mod size={20} class="pr-1" />Download some mods</Button>
+    <Button bg="secondary" ><Loaders size={20} class="pr-1" />Install a modloader</Button>
+    <Button bg="secondary"  click={() => {alert("discord.gg/etbmodding")}}><Discord size={20} class="pr-1" />Official ETB Modding Discord</Button>
+</div>
