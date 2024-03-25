@@ -20,5 +20,15 @@
         "gameVersion": "Part 4",
         "downloadLink": "",
         "folder": "LogicMods"
+    },
+    {
+        "name": "My epic mod 2!!!",
+        "author": "RandomGuy69420",
+        "description": "A really epic mod i made part 2 real",
+        "loader": "interpose",
+        "modVersion": "1.2.0",
+        "gameVersion": "Part 4",
+        "downloadLink": "",
+        "folder": "interpose_mods"
     }
 ]
