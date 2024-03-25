@@ -28,6 +28,7 @@
 	"dependencies": {
 		"@tauri-apps/api": "^1.5.3",
 		"bits-ui": "^0.20.1",
-		"lucide-svelte": "^0.363.0"
+		"lucide-svelte": "^0.363.0",
+		"svelte-persisted-store": "^0.9.1"
 	}
 }

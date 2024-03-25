@@ -18,8 +18,17 @@
       },
       "fs": {
         "all": true
+      },
+      "shell": {
+        "all": true
+      },
+      "http": {
+        "all": true,
+        "request": true,
+        "scope": ["https://*", "http://*"]
       }
     },
+    
     "bundle": {
       "active": true,
       "category": "DeveloperTool",
