@@ -8,6 +8,9 @@
 
 <div class="flex justify-center mt-10 flex-wrap">
     <h1 class="f600 text-5xl">Welcome to ETB Rocket!</h1>
+</div>
+<br>
+<div class="flex justify-center flex-wrap">
     <h3 class="text-xl">Your place to download and share EscapeTheBackrooms Mods</h3>
 </div>
 <br>

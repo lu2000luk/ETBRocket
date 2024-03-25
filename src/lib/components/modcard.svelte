@@ -3,14 +3,19 @@
     export let description = "";
     export let author = "Unknown";
     export let cover = "../../../../no_image.png";
-    export let loader = "Unknown"
+    export let loader = "Unknown";
+    export let downloadLink = "";
+    export let folder = "";
 
     import Img from "$lib/ui/image.svelte";
     import Button from "$lib/ui/button.svelte";
     import Download from "lucide-svelte/icons/download";
-    import Loading from "$lib/components/loading.svelte"
+    import Loading from "$lib/components/loading.svelte";
+
+    import { invoke } from '@tauri-apps/api/tauri'
 
     let loading = false;
+    let installed = false;
 </script>
 
 <div class="modcard flex h-30 w-50 bg-background-alt shadow-sm hover:shadow-md rounded-md p-2 m-2">
@@ -29,7 +34,13 @@
                         <Loading /> Downloading...
                     </Button>
                 {:else}
-                    <Button click={() => {loading = true;}} >
+                    <Button click={() => {loading = true; invoke('install_mod', {
+                        downloadLink: downloadLink,
+                        name: name,
+                        folder: folder,
+                        loader: loader,
+                        basePath: "C:/Program Files (x86)/Steam/steamapps/common/EscapeTheBackrooms/EscapeTheBackrooms/Content/Paks"
+                    })}} >
                         <Download size={20} class="pr-1" /> Download
                     </Button>
                 {/if}
