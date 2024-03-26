@@ -29,7 +29,7 @@
         "scope": ["https://*", "http://*"]
       }
     },
-    
+
     "bundle": {
       "active": true,
       "category": "DeveloperTool",
@@ -45,8 +45,8 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
-      "longDescription": "",
+      "identifier": "com.lu2000luk.etbrocket",
+      "longDescription": "An open source mod launcher for ETB (Not affiliated)",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
