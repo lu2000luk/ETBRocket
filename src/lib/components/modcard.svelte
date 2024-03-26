@@ -7,38 +7,54 @@
     export let cover = "../../../../no_image.png";
     export let loader = "Unknown";
     export let downloadLink = "";
-    export let folder = "/";
+    export let folder = "noFolder";
     export let modVersion = "0.0.0";
     export let gameVersion = "Unknown";
+    export let nexus = false;
+    export let mod_id = 0;
 
     import Img from "$lib/ui/image.svelte";
     import Button from "$lib/ui/button.svelte";
     import Download from "lucide-svelte/icons/download";
     import Loading from "$lib/components/loading.svelte";
-    import Check from "lucide-svelte/icons/check"
+    import Check from "lucide-svelte/icons/check";
+    import { Tooltip, Dialog, Separator, Label } from "bits-ui";
 
-    import { writeTextFile, BaseDirectory } from '@tauri-apps/api/fs';
+    import { writeBinaryFile, BaseDirectory, createDir } from '@tauri-apps/api/fs';
+    import { Select } from "bits-ui";
 
     import { getClient, ResponseType } from '@tauri-apps/api/http';
     import { invoke } from "@tauri-apps/api"
+
+    import { NexusConfig } from "$lib/nexus"
+    import { open } from '@tauri-apps/api/shell';
 
     let loading = false;
     let installed = false;
 
     // @ts-ignore
-    async function downloadMod(url, folder, basePath = "C:/Program Files (x86)/Steam/steamapps/common/EscapeTheBackrooms/EscapeTheBackrooms/Content/Paks") {
+    async function downloadMod(url, folder, basePath = "C:/Program Files (x86)/Steam/steamapps/common/EscapeTheBackrooms/EscapeTheBackrooms/Content/Paks/") {
         const httpclient = await getClient();
         console.log("HTTP Client loaded!")
+        
+        if (nexus) {
+            alert("In this beta you'll need to manually download files from nexus to install them becouse Nexus API is like shit.")
+            return;
+        }
+        
         const file = await httpclient.get(url, {
           responseType: ResponseType.Binary
         });
         console.log("File downloaded!")
         invoke("expand_scope", { folderPath: basePath })
-        await writeTextFile( url.split('#')[0].split('?')[0].split('/').pop(), Uint8Array.from(file.data), { dir: BaseDirectory.Desktop });
+        try {await createDir(basePath+folder)} catch {console.log("No directory was created!")}
+        await writeBinaryFile(basePath+folder+"/"+url.split('#')[0].split('?')[0].split('/').pop(), new Uint8Array(file.data));
         console.log("File Saved!")
         installed = true;
     }
 </script>
+
+
 
 <div class="modcard flex h-30 w-50 bg-background-alt shadow-sm hover:shadow-md rounded-md p-2 m-2">
     <Img src={cover} alt="Mod" />

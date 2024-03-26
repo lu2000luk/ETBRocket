@@ -1,31 +1,9 @@
 [
     {
-        "name": "Spawner",
-        "author": "LazyRanchGuy",
-        "cover": "https://unsplash.it/120/120",
-        "description": "An item spawner",
-        "loader": "interpose",
-        "modVersion": "1.0.0",
-        "gameVersion": "Part 4",
-        "downloadLink": "",
-        "folder": "interpose_mods"
-    },
-    {
-        "name": "My epic mod",
+        "name": "Testing mod do not download",
         "author": "RandomGuy69420",
-        "cover": "https://unsplash.it/120/121",
-        "description": "A really epic mod i made",
-        "loader": "UE4SS",
-        "modVersion": "1.2.0",
-        "gameVersion": "Part 4",
-        "downloadLink": "",
-        "folder": "LogicMods"
-    },
-    {
-        "name": "My epic mod 2!!!",
-        "author": "RandomGuy69420",
-        "description": "A really epic mod i made part 2 real",
-        "loader": "interpose",
+        "description": "Do not download example mod",
+        "loader": "Interpose",
         "modVersion": "1.2.0",
         "gameVersion": "Part 4",
         "downloadLink": "https://discord.com/robots.txt",

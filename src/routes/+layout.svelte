@@ -40,6 +40,7 @@
       NexusConfig.set({...$NexusConfig, apiKey: key})
       alert("Key saved!")
       dialogOpened.set(false);
+      location.reload()
     }
   }
 </script>
