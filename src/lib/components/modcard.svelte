@@ -13,11 +13,14 @@
     export let nexus = false;
     export let mod_id = 0;
 
+    let ignore_errors = [modVersion, gameVersion, mod_id]
+
     import Img from "$lib/ui/image.svelte";
     import Button from "$lib/ui/button.svelte";
     import Download from "lucide-svelte/icons/download";
     import Loading from "$lib/components/loading.svelte";
     import Check from "lucide-svelte/icons/check";
+    import Error from "lucide-svelte/icons/circle-x"
     import { Tooltip, Dialog, Separator, Label } from "bits-ui";
 
     import { writeBinaryFile, BaseDirectory, createDir } from '@tauri-apps/api/fs';
@@ -33,24 +36,39 @@
     let installed = false;
 
     // @ts-ignore
-    async function downloadMod(url, folder, basePath = "C:/Program Files (x86)/Steam/steamapps/common/EscapeTheBackrooms/EscapeTheBackrooms/Content/Paks/") {
-        const httpclient = await getClient();
-        console.log("HTTP Client loaded!")
-        
-        if (nexus) {
-            alert("In this beta you'll need to manually download files from nexus to install them becouse Nexus API is like shit.")
-            return;
+    async function downloadMod(url, folder) {
+        try {
+            const httpclient = await getClient();
+            console.log("HTTP Client loaded!")
+            
+            const steam_game_loc = "C:/Program Files (x86)/Steam/steamapps/common/EscapeTheBackrooms"
+            const basePath = steam_game_loc + "/EscapeTheBackrooms/Content/Paks/"
+
+            if (nexus) {
+                alert("In this beta you'll need to manually download files from nexus to install them becouse Nexus API is like shit.")
+                loading = "error";
+                installed = false;
+                return;
+            }
+
+            const file = await httpclient.get(url, {
+              responseType: ResponseType.Binary
+            });
+
+            console.log("File downloaded!")
+            invoke("expand_scope", { folderPath: basePath })
+
+            try {await createDir(basePath+folder)} catch {console.log("No directory was created!")}
+            await writeBinaryFile(basePath+folder+"/"+url.split('#')[0].split('?')[0].split('/').pop(), new Uint8Array(file.data));
+
+            console.log("Mod File Saved to "+basePath+folder+"/"+url.split('#')[0].split('?')[0].split('/').pop())
+            installed = true;
+        } catch (e) {
+            console.error(e);
+            loading = "error";
+            installed = false;
         }
         
-        const file = await httpclient.get(url, {
-          responseType: ResponseType.Binary
-        });
-        console.log("File downloaded!")
-        invoke("expand_scope", { folderPath: basePath })
-        try {await createDir(basePath+folder)} catch {console.log("No directory was created!")}
-        await writeBinaryFile(basePath+folder+"/"+url.split('#')[0].split('?')[0].split('/').pop(), new Uint8Array(file.data));
-        console.log("File Saved!")
-        installed = true;
     }
 </script>
 
@@ -72,9 +90,13 @@
                         <Check /> Installed
                     </Button>
                 {:else}
-                    {#if loading}
+                    {#if loading !== "error" && loading}
                         <Button disabled bg="primary-dark">
                             <Loading /> Downloading...
+                        </Button>
+                    {:else if loading === "error"}
+                        <Button click={() => {loading = true; downloadMod(downloadLink, folder)}} bg="error" >
+                            <Error size={20} class="pr-1" /> Error
                         </Button>
                     {:else}
                         <Button click={() => {loading = true; downloadMod(downloadLink, folder)}} >

@@ -12,11 +12,11 @@
     {
         "name": "Keysyy Mod Menu Remastered",
         "author": "Keysyy",
-        "description": "Keysyy's Mod Menu Remastered is compatible with multiplayer, you can troll your friends in any way! (you need to be the host of course ;D)Click Left Alt to open/close menu",
+        "description": "Keysyy's Mod Menu Remastered is compatible with multiplayer, you can troll your friends in any way! (you need to be the host of course) Click Left Alt to open/close menu",
         "loader": "Interpose",
         "modVersion": "2.0",
         "gameVersion": "Part 4",
         "downloadLink": "https://github.com/Keysyy/Keysyys-Mod-Menu-Remastered/raw/main/Z_KeysyysModMenu2.1.pak",
-        "folder": "interpose_mods"
+        "folder": "LogicMods"
     }
 ]

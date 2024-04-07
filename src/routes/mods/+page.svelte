@@ -23,7 +23,7 @@
 }
 
     async function nexusGetTrending() {
-        if ($NexusConfig.apiKey === false) {return;}
+        if ($NexusConfig.apiKey === false) {return [];}
 
         const httpclient = await getClient();
         console.info("HTTPClient Loaded")

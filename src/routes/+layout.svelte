@@ -69,7 +69,7 @@
       </Tooltip.Content>
     </Tooltip.Root>
   </div>
-  <div class="m-2 w-full">
+  <div class="m-2 w-full overflow-y-auto">
     <slot />
   </div>
 </div>
