@@ -7,6 +7,7 @@
   import Loaders from "lucide-svelte/icons/unplug";
   import SideIcon from "$lib/components/sideicon.svelte";
   import Rocket from "lucide-svelte/icons/rocket";
+  import Settings from "lucide-svelte/icons/settings"
   import { Tooltip, Dialog, Separator, Label } from "bits-ui";
   import { goto } from "$app/navigation";
   import Button from "$lib/ui/button.svelte";
@@ -46,28 +47,42 @@
 </script>
 
 <div class="flex h-screen">
-  <div class="sidebar w-18 bg-background-alt flex flex-col content-center items-center">
-    <SideIcon click={() => {goto("../../../../")}}><Rocket /></SideIcon>
-    <Tooltip.Root>
-      <Tooltip.Trigger>
-        <SideIcon click={() => {goto("../../../../mods")}}><Mod /></SideIcon>
-      </Tooltip.Trigger>
-      <Tooltip.Content side="right">
-        <div class="bg-secondary rounded-md ml-1 transition-all p-2">
-          Mods
-        </div>
-      </Tooltip.Content>
-    </Tooltip.Root>
-    <Tooltip.Root>
-      <Tooltip.Trigger>
-        <SideIcon click={() => {goto("../../../../loaders")}}><Loaders /></SideIcon>
-      </Tooltip.Trigger>
-      <Tooltip.Content side="right">
-        <div class="bg-secondary rounded-md ml-1 transition-all p-2">
-          Loaders
-        </div>
-      </Tooltip.Content>
-    </Tooltip.Root>
+  <div class="sidebar w-18 bg-background-alt flex flex-col content-center justify-between items-center">
+    <div class="topitems">
+      <SideIcon click={() => {goto("../../../../")}}><Rocket /></SideIcon>
+      <Tooltip.Root>
+        <Tooltip.Trigger>
+          <SideIcon click={() => {goto("../../../../mods")}}><Mod /></SideIcon>
+        </Tooltip.Trigger>
+        <Tooltip.Content side="right">
+          <div class="bg-secondary rounded-md ml-1 transition-all p-2">
+            Mods
+          </div>
+        </Tooltip.Content>
+      </Tooltip.Root>
+      <Tooltip.Root>
+        <Tooltip.Trigger>
+          <SideIcon click={() => {goto("../../../../loaders")}}><Loaders /></SideIcon>
+        </Tooltip.Trigger>
+        <Tooltip.Content side="right">
+          <div class="bg-secondary rounded-md ml-1 transition-all p-2">
+            Loaders
+          </div>
+        </Tooltip.Content>
+      </Tooltip.Root>
+    </div>
+    <div class="bottomitems">
+      <Tooltip.Root>
+        <Tooltip.Trigger>
+          <SideIcon click={() => {goto("../../../../mods")}}><Settings /></SideIcon>
+        </Tooltip.Trigger>
+        <Tooltip.Content side="right">
+          <div class="bg-secondary rounded-md ml-1 transition-all p-2">
+            Settings
+          </div>
+        </Tooltip.Content>
+      </Tooltip.Root>
+    </div>
   </div>
   <div class="m-2 w-full overflow-y-auto">
     <slot />
