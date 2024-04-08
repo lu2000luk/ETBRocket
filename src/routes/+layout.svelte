@@ -83,7 +83,7 @@
       <div class="bottomitems">
         <Tooltip.Root>
           <Tooltip.Trigger>
-            <SideIcon click={() => {goto("../../../../mods")}}><Settings /></SideIcon>
+            <SideIcon click={() => {goto("../../../../settings")}}><Settings /></SideIcon>
           </Tooltip.Trigger>
           <Tooltip.Content side="right">
             <div class="bg-secondary rounded-md ml-1 transition-all p-2">
