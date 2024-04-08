@@ -1,1 +1,1 @@
-<h1>Hey! You should not be here! Or at least... Not yet... Perhaps have you got a time machine?</h1>
+<h1>Hey! You should not be here! (Jk theres probably an option on the sidebar) Or at least... Not yet... Perhaps have you got a time machine?</h1>
