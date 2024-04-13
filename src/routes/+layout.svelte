@@ -25,11 +25,11 @@
     dialogOpened.set(false);
   }
 
-  if (!steamPath) {
+  if (!$steamPath) {
     invoke("get_steam_path").then(path => {steamPath.set(path)})
   }
 
-  let apiKeyInput = "";
+  let apiKeyInput = $NexusConfig.apiKey ? $NexusConfig.apiKey : "";
 
   async function setKey(key=apiKeyInput) {
     console.log("Checking key... ")
