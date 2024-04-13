@@ -27,6 +27,7 @@
 	"type": "module",
 	"dependencies": {
 		"@tauri-apps/api": "^1.5.3",
+		"appwrite": "^14.0.0",
 		"bits-ui": "^0.20.1",
 		"lucide-svelte": "^0.363.0",
 		"svelte-persisted-store": "^0.9.1"

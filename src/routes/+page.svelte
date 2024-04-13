@@ -12,7 +12,7 @@
 </div>
 <br>
 <div class="flex justify-center flex-wrap">
-    <h3 class="text-xl">Your place to download and share EscapeTheBackrooms Mods</h3>
+    <h3 class="text-xl">Your place to download and share Escape The Backrooms Mods</h3>
 </div>
 <br>
 <div class="flex justify-center flex-wrap">
