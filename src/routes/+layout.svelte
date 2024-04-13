@@ -12,14 +12,21 @@
   import { goto } from "$app/navigation";
   import Button from "$lib/ui/button.svelte";
   import { getClient, ResponseType } from '@tauri-apps/api/http';
+  import { invoke } from "@tauri-apps/api"
 
   import { NexusConfig, dialogOpened } from "$lib/nexus";
   import { open } from '@tauri-apps/api/shell';
+
+  import { steamPath } from "$lib/settings"
 
   if (!$NexusConfig.apiKey) {
     dialogOpened.set(true);
   } else {
     dialogOpened.set(false);
+  }
+
+  if (!steamPath) {
+    invoke("get_steam_path").then(path => {steamPath.set(path)})
   }
 
   let apiKeyInput = "";
