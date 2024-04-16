@@ -32,8 +32,12 @@
     import { NexusConfig } from "$lib/nexus"
     import { open } from '@tauri-apps/api/shell';
 
+    import { get } from "svelte/store"
+
+    import downloaded from "$lib/downloaded";
+
     let loading = false;
-    let installed = false;
+    let installed = false
 
     // @ts-ignore
     async function downloadMod(url, folder) {
@@ -63,13 +67,18 @@
 
             console.log("Mod File Saved to "+basePath+folder+"/"+url.split('#')[0].split('?')[0].split('/').pop())
             installed = true;
+
+            let dc = get(downloaded)
+            dc.push(downloadLink)
+
+            downloaded.set(dc)
         } catch (e) {
             console.error(e);
             loading = "error";
             installed = false;
-        }
-        
+        }   
     }
+
 </script>
 
 
@@ -85,7 +94,7 @@
         <div class="download flex items-end">
             <div class="flex items-center">
                 <p class="px-1">Made by {author}</p>
-                {#if installed}
+                {#if installed || get(downloaded).includes(downloadLink)}
                     <Button disabled bg="secondary">
                         <Check /> Installed
                     </Button>

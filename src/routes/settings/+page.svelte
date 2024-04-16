@@ -1,9 +1,13 @@
 <script>
+//@ts-nocheck
+
     import Button from "$lib/ui/button.svelte"
 
     import { dialogOpened } from "$lib/nexus"
     import { steamPath } from "$lib/settings";
 
+    import { getClient, ResponseType } from '@tauri-apps/api/http';
+    import { NexusConfig } from "$lib/nexus";
 </script>
 
 <div class="m-2">
