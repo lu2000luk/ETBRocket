@@ -11,3 +11,4 @@ Step 3: Open the terminal in the repo's root and run "pnpm i"
 Step 4: In the terminal type "pnpm tauri build"
 
 Then you'll suffer for my shitty code but it should build the app, for any questions ask on Discord or make an Issue
+(You might need to disable the antivirus to build, check tauri's ds for an exaplanation)
