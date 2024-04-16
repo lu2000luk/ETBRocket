@@ -37,7 +37,17 @@
     import downloaded from "$lib/downloaded";
 
     let loading = false;
-    let installed = false
+    let installed = false;
+
+
+    let download_timer = 0;
+    setInterval(() => {
+        if (loading === true) {
+            download_timer++;
+        } else {
+            download_timer = 0;
+        }
+    }, 1000)
 
     // @ts-ignore
     async function downloadMod(url, folder) {
@@ -63,6 +73,7 @@
             invoke("expand_scope", { folderPath: basePath })
 
             try {await createDir(basePath+folder)} catch {console.log("No directory was created!")}
+            console.log("Writing binary file")
             await writeBinaryFile(basePath+folder+"/"+url.split('#')[0].split('?')[0].split('/').pop(), new Uint8Array(file.data));
 
             console.log("Mod File Saved to "+basePath+folder+"/"+url.split('#')[0].split('?')[0].split('/').pop())
@@ -101,7 +112,7 @@
                 {:else}
                     {#if loading !== "error" && loading}
                         <Button disabled bg="primary-dark">
-                            <Loading /> Downloading...
+                            <Loading /> {download_timer}s
                         </Button>
                     {:else if loading === "error"}
                         <Button click={() => {loading = true; downloadMod(downloadLink, folder)}} bg="error" >
