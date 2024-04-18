@@ -23,6 +23,8 @@
     import Error from "lucide-svelte/icons/circle-x"
     import { Tooltip, Dialog, Separator, Label } from "bits-ui";
 
+    import { steamPath } from "$lib/settings";
+
     import { writeBinaryFile, BaseDirectory, createDir } from '@tauri-apps/api/fs';
     import { Select } from "bits-ui";
 
@@ -55,7 +57,7 @@
             const httpclient = await getClient();
             console.log("HTTP Client loaded!")
             
-            const steam_game_loc = "C:/Program Files (x86)/Steam/steamapps/common/EscapeTheBackrooms"
+            const steam_game_loc = $steamPath+"/steamapps/common/EscapeTheBackrooms"
             const basePath = steam_game_loc + "/EscapeTheBackrooms/Content/Paks/"
 
             if (nexus) {
