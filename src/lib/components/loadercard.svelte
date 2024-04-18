@@ -123,11 +123,11 @@
                             <Loading /> Installing...
                         </Button>
                     {:else if loading === "error"}
-                        <Button click={() => {loading = true; installLoader()}} bg="error" >
+                        <Button click={() => {installLoader()}} bg="error" >
                             <Error size={20} class="pr-1" /> Error
                         </Button>
                     {:else}
-                        <Button click={() => {loading = true; installLoader()}} >
+                        <Button click={() => {installLoader()}} >
                             <Download size={20} class="pr-1" /> Download
                         </Button>
                     {/if}
