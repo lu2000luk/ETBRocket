@@ -9,7 +9,8 @@
 
     import { steamPath } from "$lib/settings";
 
-    import { writeBinaryFile, BaseDirectory, createDir } from '@tauri-apps/api/fs';
+    import { writeBinaryFile, copyFile, createDir } from '@tauri-apps/api/fs';
+    import { resolveResource } from '@tauri-apps/api/path'
 
     import { getClient, ResponseType } from '@tauri-apps/api/http';
     import { invoke } from "@tauri-apps/api"
@@ -39,6 +40,7 @@
                 installed = true;
             } catch (e) {
                 console.error(e);
+                alert(e)
                 loading = "error";
             }
         }
@@ -52,7 +54,6 @@
     let installed = false;
 
     async function installUE4SS() {
-        const httpclient = await getClient();
 
         const steam_game_loc = $steamPath+"/steamapps/common/EscapeTheBackrooms"
         const basePath = steam_game_loc + "/EscapeTheBackrooms/Binaries/Win64/"
@@ -61,47 +62,21 @@
 
         try {await createDir(basePath+"Mods")} catch {console.log("No directory was created!")}
 
-        const DLL = await httpclient.get(location.origin+"/UE4SS.dll", {
-              responseType: ResponseType.Binary
-            });
+        const DLLpath = await resolveResource('resources/UE4SS.dll')
+        const INIpath = await resolveResource('resources/UE4SS-settings.ini')
+        const DWMpath = await resolveResource('resources/dwmapi.dll')
+        const MODSpath = await resolveResource('resources/mods.txt')
         
-        console.log("DLL downloaded!")
-        
-        const INI = await httpclient.get(location.origin+"/UE4SS-settings.ini", {
-              responseType: ResponseType.Binary
-            });
-
-        console.log("INI downloaded!")
-
-        const DWM = await httpclient.get(location.origin+"/dwmapi.dll", {
-              responseType: ResponseType.Binary
-            });
-
-        console.log("DWM downloaded!")
-
-        const MODS = await httpclient.get(location.origin+"/mods.txt", {
-              responseType: ResponseType.Binary
-            });
-        
-        console.log("MODS downloaded!")
+        console.log("Paths resolved")
 
         invoke("expand_scope", { folderPath: basePath+"Mods" })
 
-        await writeBinaryFile(basePath+"/UE4SS.dll", new Uint8Array(DLL.data));
+        await copyFile(DLLpath, basePath+"UE4SS.dll");
+        await copyFile(INIpath, basePath+"UE4SS-settings.ini");
+        await copyFile(DWMpath, basePath+"dwmapi.dll");
+        await copyFile(MODSpath, basePath+"Mods"+"/mods.txt");
 
-        console.log("DLL saved!")
-
-        await writeBinaryFile(basePath+"/UE4SS-settings.ini", new Uint8Array(INI.data));
-
-        console.log("INI saved!")
-
-        await writeBinaryFile(basePath+"/dwmapi.dll", new Uint8Array(DWM.data));
-
-        console.log("DWM saved!")
-
-        await writeBinaryFile(basePath+"Mods"+"/mods.txt", new Uint8Array(MODS.data));
-
-        console.log("MODS saved!")
+        console.log("Files copied")
 
         alert("UE4SS installed!");
     }
@@ -123,11 +98,11 @@
                             <Loading /> Installing...
                         </Button>
                     {:else if loading === "error"}
-                        <Button click={() => {loading = true; installLoader()}} bg="error" >
+                        <Button click={() => {installLoader()}} bg="error" >
                             <Error size={20} class="pr-1" /> Error
                         </Button>
                     {:else}
-                        <Button click={() => {loading = true; installLoader()}} >
+                        <Button click={() => {installLoader()}} >
                             <Download size={20} class="pr-1" /> Download
                         </Button>
                     {/if}
