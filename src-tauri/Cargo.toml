@@ -18,7 +18,7 @@ tauri-build = { version = "1.5.1", features = [] }
 serde_json = "1.0"
 winreg = "0.52"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.6.1", features = [ "http-all", "shell-all", "dialog-all", "fs-all"] }
+tauri = { version = "1.6.1", features = [ "shell-open", "path-all", "http-all", "devtools", "dialog-all", "fs-all"] }
 reqwest = { version = "0.11", features = ["json"] }
 tokio = { version = "1.25", features = ["full"] }
 

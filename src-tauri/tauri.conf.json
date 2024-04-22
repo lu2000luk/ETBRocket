@@ -7,8 +7,8 @@
     "distDir": "../build"
   },
   "package": {
-    "productName": "etbrocket",
-    "version": "0.1.0"
+    "productName": "ETB Rocket",
+    "version": "0.8.5"
   },
   "tauri": {
     "allowlist": {
@@ -18,15 +18,18 @@
       },
       "fs": {
         "all": true,
-        "scope": ["**", "**/*", "/**/*"]
+        "scope": ["**", "**/*", "/**/*","$RESOURCE/*"]
       },
       "shell": {
-        "all": true
+        "open": true
       },
       "http": {
         "all": true,
         "request": true,
         "scope": ["https://*", "http://*"]
+      },
+      "path": {
+        "all": true
       }
     },
 
@@ -41,7 +44,6 @@
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
-        "icons/128x128@2x.png",
         "icons/icon.icns",
         "icons/icon.ico"
       ],
@@ -54,7 +56,9 @@
         "providerShortName": null,
         "signingIdentity": null
       },
-      "resources": [],
+      "resources": [
+        "resources/*"
+      ],
       "shortDescription": "",
       "targets": "all",
       "windows": {
