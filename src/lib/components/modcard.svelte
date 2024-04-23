@@ -61,7 +61,7 @@
             const basePath = steam_game_loc + "/EscapeTheBackrooms/Content/Paks/"
 
             if (nexus) {
-                alert("In this beta you'll need to manually download files from nexus to install them becouse Nexus API is like shit.")
+                alert("In this beta you'll need to manually download files from nexus to install them.")
                 loading = "error";
                 installed = false;
                 return;
