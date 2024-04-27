@@ -1,7 +1,6 @@
 <script>
 // @ts-nocheck
 
-
   import "$lib/app.css"
   import Mod from "lucide-svelte/icons/blocks";
   import Loaders from "lucide-svelte/icons/unplug";

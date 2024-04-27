@@ -34,9 +34,15 @@
     import { NexusConfig } from "$lib/nexus"
     import { open } from '@tauri-apps/api/shell';
 
-    import { get } from "svelte/store"
+    import { once, listen } from '@tauri-apps/api/event';
 
+    const unlisten = listen('scheme-request-received', (event) => {
+        console.log(`Got NXM link. Payload: ${event.payload}`);
+    });
+
+    import { get } from "svelte/store"
     import downloaded from "$lib/downloaded";
+    import { linear } from "svelte/easing";
 
     let loading = false;
     let installed = false;
