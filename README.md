@@ -1,5 +1,5 @@
 # ETB Rocket
-Im rly tired so i aint writing a long ahh readme for this. Ill do it in the future, for now ill just make some base UI stuff so i can get hype from the guys on the ds while i learn rust.
+This CURRENTLY IN BETA mod installer will simplify the process of installing EscapeTheBackrooms mods with a mod hosting system and nexus integration for the authors that want to stick with them (I understand). Lots of features are still missing so dont expect much. Plans for social integrations, profiles (packs) & in-game inegrations are scheduled for past stable. The app is made with a SvelteKit (TS, Tailwind & Bits UI) frontend and a (scuffed) Rust backend. Contributing to the project whould be actually amazing, expecially for the Rust side.
 
 # Building the app by yourself
 Step 1: Download repo
