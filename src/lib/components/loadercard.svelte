@@ -28,7 +28,7 @@
             return;
         } else if (isUE4SS) {
             try {
-                loading = true;
+                loading = "Starting";
 
                 await installUE4SS();
 
@@ -55,12 +55,16 @@
 
     async function installUE4SS() {
 
+        loading = "Preparing"
+
         const steam_game_loc = $steamPath+"/steamapps/common/EscapeTheBackrooms"
         const basePath = steam_game_loc + "/EscapeTheBackrooms/Binaries/Win64/"
 
         invoke("expand_scope", { folderPath: basePath })
 
         try {await createDir(basePath+"Mods")} catch {console.log("No directory was created!")}
+
+        loading = "Resolving"
 
         const DLLpath = await resolveResource('resources/UE4SS.dll')
         const INIpath = await resolveResource('resources/UE4SS-settings.ini')
@@ -69,7 +73,11 @@
         
         console.log("Paths resolved")
 
+        loading = "Preparing"
+
         invoke("expand_scope", { folderPath: basePath+"Mods" })
+
+        loading = "Copying"
 
         await copyFile(DLLpath, basePath+"UE4SS.dll");
         await copyFile(INIpath, basePath+"UE4SS-settings.ini");
@@ -78,7 +86,7 @@
 
         console.log("Files copied")
 
-        alert("UE4SS installed!");
+        loading = "Cleaning"
     }
 </script>
 
@@ -95,7 +103,7 @@
                 {:else}
                     {#if loading !== "error" && loading}
                         <Button disabled bg="primary-dark">
-                            <Loading /> Installing...
+                            <Loading /> {loading}
                         </Button>
                     {:else if loading === "error"}
                         <Button click={() => {installLoader()}} bg="error" >
