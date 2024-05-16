@@ -18,7 +18,7 @@
     <br>
     <br>
     <p class="text-2xl" id="uidebug">UI Debug</p>
-    <div class="flex items-center space-x-3" ui-debug={$uidev}>
+    <div class="flex items-center space-x-3">
         <Switch.Root
         onCheckedChange={(e) => { uidev.set(e) }}
         checked={$uidev}
