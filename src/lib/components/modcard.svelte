@@ -47,19 +47,10 @@
     let loading = false;
     let installed = false;
 
-
-    let download_timer = 0;
-    setInterval(() => {
-        if (loading === true) {
-            download_timer++;
-        } else {
-            download_timer = 0;
-        }
-    }, 1000)
-
     // @ts-ignore
     async function downloadMod(url, folder) {
         try {
+            loading = "Starting";
             const httpclient = await getClient();
             console.log("HTTP Client loaded!")
             
@@ -73,24 +64,32 @@
                 return;
             }
 
+            loading = "Downloading";
+
             const file = await httpclient.get(url, {
               responseType: ResponseType.Binary
             });
 
             console.log("File downloaded!")
+
+            loading = "Foldering";
             invoke("expand_scope", { folderPath: basePath })
 
             try {await createDir(basePath+folder)} catch {console.log("No directory was created!")}
+
+            loading = "Writing";
             console.log("Writing binary file")
             await writeBinaryFile(basePath+folder+"/"+url.split('#')[0].split('?')[0].split('/').pop(), new Uint8Array(file.data));
 
+            loading = "Cleaning";
             console.log("Mod File Saved to "+basePath+folder+"/"+url.split('#')[0].split('?')[0].split('/').pop())
-            installed = true;
 
             let dc = get(downloaded)
             dc.push(downloadLink)
 
             downloaded.set(dc)
+
+            installed = true;
         } catch (e) {
             console.error(e);
             loading = "error";
@@ -120,14 +119,14 @@
                 {:else}
                     {#if loading !== "error" && loading}
                         <Button disabled bg="primary-dark">
-                            <Loading /> {download_timer}s
+                            <Loading /> {loading}
                         </Button>
                     {:else if loading === "error"}
-                        <Button click={() => {loading = true; downloadMod(downloadLink, folder)}} bg="error" >
+                        <Button click={() => {downloadMod(downloadLink, folder)}} bg="error" >
                             <Error size={20} class="pr-1" /> Error
                         </Button>
                     {:else}
-                        <Button click={() => {loading = true; downloadMod(downloadLink, folder)}} >
+                        <Button click={() => {downloadMod(downloadLink, folder)}} >
                             <Download size={20} class="pr-1" /> Download
                         </Button>
                     {/if}

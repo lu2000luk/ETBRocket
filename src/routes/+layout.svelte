@@ -7,6 +7,7 @@
   import SideIcon from "$lib/components/sideicon.svelte";
   import Rocket from "lucide-svelte/icons/rocket";
   import Settings from "lucide-svelte/icons/settings"
+  import CloudUpload from "lucide-svelte/icons/cloud-upload";
   import { Tooltip, Dialog, Separator, Label } from "bits-ui";
   import { goto } from "$app/navigation";
   import Button from "$lib/ui/button.svelte";
@@ -16,7 +17,7 @@
   import { NexusConfig, dialogOpened } from "$lib/nexus";
   import { open } from '@tauri-apps/api/shell';
 
-  import { steamPath } from "$lib/settings"
+  import { steamPath, uidev } from "$lib/settings"
 
   if (!$NexusConfig.apiKey) {
     nexusConnect()
@@ -71,9 +72,9 @@
   let apiKeyInput = $NexusConfig.apiKey ? $NexusConfig.apiKey : "";
 </script>
 
-<div class="flex h-screen">
-  <div class="sidebar w-18 bg-background-alt flex flex-col justify-between">
-      <div class="topitems flex flex-col ">
+<div class="flex h-screen" ui-debug={$uidev}>
+  <div class="sidebar w-18 bg-background-alt flex flex-col justify-between" ui-debug={$uidev}>
+      <div class="topitems flex flex-col" ui-debug={$uidev}>
         <Tooltip.Root>
           <Tooltip.Trigger>
             <SideIcon click={() => {goto("../../../../")}}><Rocket /></SideIcon>
@@ -105,7 +106,17 @@
           </Tooltip.Content>
         </Tooltip.Root>
       </div>
-      <div class="bottomitems">
+      <div class="bottomitems flex flex-col" ui-debug={$uidev}>
+        <Tooltip.Root>
+          <Tooltip.Trigger>
+            <SideIcon click={() => {goto("../../../../creators")}}><CloudUpload /></SideIcon>
+          </Tooltip.Trigger>
+          <Tooltip.Content side="right">
+            <div class="bg-secondary rounded-md ml-1 transition-all p-2">
+              Creator Hub
+            </div>
+          </Tooltip.Content>
+        </Tooltip.Root>
         <Tooltip.Root>
           <Tooltip.Trigger>
             <SideIcon click={() => {goto("../../../../settings")}}><Settings /></SideIcon>
@@ -118,7 +129,7 @@
         </Tooltip.Root>
       </div>
   </div>
-  <div class="m-2 w-full overflow-y-auto">
+  <div class="m-2 w-full overflow-y-auto" ui-debug={$uidev}>
     <slot />
   </div>
 </div>
