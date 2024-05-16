@@ -7,7 +7,7 @@
     import Check from "lucide-svelte/icons/check";
     import Error from "lucide-svelte/icons/circle-x"
 
-    import { steamPath } from "$lib/settings";
+    import { steamPath, uidev } from "$lib/settings";
 
     import { writeBinaryFile, copyFile, createDir } from '@tauri-apps/api/fs';
     import { resolveResource } from '@tauri-apps/api/path'
@@ -90,12 +90,12 @@
     }
 </script>
 
-<div class="flex justify-between w-120 my-2 h-1/5 bg-background-alt rounded-md">
+<div class="flex justify-between w-120 my-2 h-1/5 bg-background-alt rounded-md" ui-debug={$uidev}>
     <div class="det p-3">
         <h1 class="text-4xl f600">{isInterpose ? "Interpose" : "UE4SS"} Modloader</h1>
         <span class="text-l">{@html isInterpose ? "The new and improved Mod Loader for Escape the Backrooms made by Mythical" : "Injectable LUA scripting system. Credit to the UE4SS authors.<br> <a style='color:blue;' href='https://github.com/UE4SS-RE/RE-UE4SS'>Repo</a> <a style='color:blue;' class='ue4sslink' href='https://github.com/UE4SS-RE/RE-UE4SS/blob/main/LICENSE'>License</a> [ Links in-app ]"}</span>
     </div>
-    <div class="dwn flex flex-col-reverse p-3">
+    <div class="dwn flex flex-col-reverse p-3" ui-debug={$uidev}>
         {#if installed || get(downloaded).includes(modloader)}
                     <Button disabled bg="secondary">
                         <Check /> Installed

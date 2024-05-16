@@ -12,16 +12,17 @@
     import { Switch, Label } from "bits-ui";
 </script>
 
-<div class="m-2">
+<div class="m-2" ui-debug={$uidev}>
     <p class="text-2xl" id="steampath">Steam Path (the game must be in there)</p>
     <input type="text" class="h-input w-full border-none bg-background-alt rounded focus:outline-none p-2" placeholder="C:/Program Files (x86)/Steam/" bind:value={$steamPath}>
     <br>
     <br>
     <p class="text-2xl" id="uidebug">UI Debug</p>
-    <div class="flex items-center space-x-3">
+    <div class="flex items-center space-x-3" ui-debug={$uidev}>
         <Switch.Root
         onCheckedChange={(e) => { uidev.set(e) }}
         checked={$uidev}
+        ui-debug={$uidev}
           id="uidebug_switch"
           class="peer inline-flex h-[26px] min-h-[26px] w-[50px] shrink-0 cursor-pointer items-center rounded-full px-[3px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 bg-primary data-[state=unchecked]:shadow-mini-inset"
         >

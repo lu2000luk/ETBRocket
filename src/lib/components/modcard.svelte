@@ -23,7 +23,7 @@
     import Error from "lucide-svelte/icons/circle-x"
     import { Tooltip, Dialog, Separator, Label } from "bits-ui";
 
-    import { steamPath } from "$lib/settings";
+    import { steamPath, uidev } from "$lib/settings";
 
     import { writeBinaryFile, BaseDirectory, createDir } from '@tauri-apps/api/fs';
     import { Select } from "bits-ui";
@@ -101,7 +101,7 @@
 
 
 
-<div class="modcard flex h-30 w-50 bg-background-alt shadow-sm hover:shadow-md rounded-md p-2 m-2">
+<div class="modcard flex h-30 w-50 bg-background-alt shadow-sm hover:shadow-md rounded-md p-2 m-2" ui-debug={$uidev}>
     <Img src={cover} alt="Mod" />
     <div class="details pl-2 pt-2 w-full flex justify-between">
         <div class="data">
@@ -109,8 +109,8 @@
             <h4 class="text-l inter f400 overflow-hidden line-clamp-2">{description}</h4>
             <p class="text-success text-s">{loader} modloader</p>
         </div>
-        <div class="download flex items-end">
-            <div class="flex items-center">
+        <div class="download flex items-end" ui-debug={$uidev}>
+            <div class="flex items-center" ui-debug={$uidev}>
                 <p class="px-1">Made by {author}</p>
                 {#if installed || get(downloaded).includes(downloadLink)}
                     <Button disabled bg="secondary">

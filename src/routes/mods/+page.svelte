@@ -39,7 +39,7 @@
         let mappedMods = [];
 
         await nmods.data.forEach(async element => {
-            if (element.name === "Interpose Map Loader" ||element.name === "Interpose Mod Loader" || element.contains_adult_content === true) {return;}
+            if (element.name === "Interpose Map Loader" || element.name === "Interpose Mod Loader" || element.contains_adult_content === true) {return;}
 
             mappedMods.push({
                 cover: element.picture_url,
