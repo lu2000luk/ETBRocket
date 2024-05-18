@@ -13,4 +13,6 @@ Step 4: In the terminal type "pnpm tauri build"
 Then you'll suffer for my shitty code but it should build the app, for any questions ask on Discord or make an Issue
 (You might need to disable the antivirus to build, check tauri's ds for an exaplanation)
 
+For the ones that understand JS package managers & runtimes PNPM should not be necessary but to avoid any errors, since i use it, i suggest using it but it should also work with NPM, Yarn and Bun (The runtime should be supported)
+
 Github Actions will also build the app for you automatically when i merge to the release branch
