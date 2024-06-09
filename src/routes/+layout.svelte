@@ -7,6 +7,7 @@
   import SideIcon from "$lib/components/sideicon.svelte";
   import Rocket from "lucide-svelte/icons/rocket";
   import Settings from "lucide-svelte/icons/settings"
+  import Banana from "lucide-svelte/icons/banana"
   import CloudUpload from "lucide-svelte/icons/cloud-upload";
   import { Tooltip, Dialog, Separator, Label } from "bits-ui";
   import { goto } from "$app/navigation";
@@ -17,7 +18,9 @@
   import { NexusConfig, dialogOpened } from "$lib/nexus";
   import { open } from '@tauri-apps/api/shell';
 
-  import { steamPath, uidev } from "$lib/settings"
+  import { steamPath, uidev, banana } from "$lib/settings"
+
+  import { gsap } from "gsap";
 
   if (!$NexusConfig.apiKey) {
     nexusConnect()
@@ -70,14 +73,28 @@
   }
 
   let apiKeyInput = $NexusConfig.apiKey ? $NexusConfig.apiKey : "";
+
+  let bananaCursor;
+
+  if ($banana) {
+    onmousemove = (e) => {
+      gsap.to(".bananaCursor", {duration: 0.05, x: e.clientX-(bananaCursor.clientWidth/2), y: e.clientY-(bananaCursor.clientHeight/2), ease: "power2.inOut"})
+    }
+  }
 </script>
 
-<div class="flex h-screen" ui-debug={$uidev}>
+<div class="bananaCursor fixed pointer-events-none cursor-none" hidden={!$banana} bind:this={bananaCursor}>
+  <div class="bananaCircle flex bg-slate-600 bg-opacity-25 z-50 cursor-none rounded-full backdrop-blur-md p-2 justify-center items-center">
+    <Banana />
+  </div>
+</div>
+
+<div class="flex h-screen" style="{$banana ? "cursor: none;" : ""}" ui-debug={$uidev}>
   <div class="sidebar w-18 bg-background-alt flex flex-col justify-between" ui-debug={$uidev}>
       <div class="topitems flex flex-col" ui-debug={$uidev}>
         <Tooltip.Root>
           <Tooltip.Trigger>
-            <SideIcon click={() => {goto("../../../../")}}><Rocket /></SideIcon>
+            <SideIcon click={() => {goto("../../../../")}}>{#if $banana}<Banana />{:else}<Rocket />{/if}</SideIcon>
           </Tooltip.Trigger>
           <Tooltip.Content side="right">
             <div class="bg-secondary rounded-md ml-1 transition-all p-2">
