@@ -14,6 +14,9 @@
 
     import { get } from "svelte/store";
 
+
+    import { unzip } from 'unzipit';
+
     let loading = "Loading";
 
     let is_interpose = false;
@@ -139,15 +142,31 @@
         invoke("expand_scope", { folderPath: basePath })
         try {await createDir(basePath+folder)} catch {console.log("No directory was created!")}
 
+        loading = "Extracting";
+
+        const zipFile = new Blob([raw_mod.data]);
+        const zip = await unzip(zipFile);
+        const entries = zip.getEntries();
+
+        let extractedFile
+
+        if (entries.length === 1) {
+            const entry = entries[0];
+            extractedFile = await entry.blob();
+            
+        } else {
+            console.error("Invalid zip file");
+        }
+
         loading = "Writing";
-        console.log("Writing binary file")
-        await writeBinaryFile(basePath+folder+"/"+download_link_data.split('#')[0].split('?')[0].split('/').pop(), new Uint8Array(raw_mod.data));
+
+        await writeBinaryFile(basePath+folder+"/"+download_link_data.split('#')[0].split('?')[0].split('/').pop(), await extractedFile.buffer());
 
         loading = "Cleaning";
         console.log("Mod File Saved to "+basePath+folder+"/"+download_link_data.split('#')[0].split('?')[0].split('/').pop())
 
         let dc = get(downloaded)
-        
+
         if (is_interpose) {
             dc.push("interpose")
         } else {
