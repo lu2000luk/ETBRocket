@@ -94,9 +94,12 @@
     console.log(`Got NXM link. Payload: ${event.payload}`);
     let nxm_data = parseNxmUrl(event.payload)
     console.log(nxm_data)
+    nxm_data_d = nxm_data;
     NXMData.set(NXMData);
     NXMDialog.set(true);
   });
+
+  let nxm_data_d;
 </script>
 
 <div class="bananaCursor fixed pointer-events-none cursor-none" hidden={!$banana} bind:this={bananaCursor}>
@@ -175,7 +178,7 @@
       class="fixed inset-0 z-50 bg-black/80"
     />
     <Dialog.Content
-      class="fixed left-[50%] top-[50%] z-50 w-full max-w-[94%] translate-x-[-50%] translate-y-[-50%] rounded-card-lg border bg-background p-5 shadow-popover outline-none sm:max-w-[490px] md:w-full"
+      class="fixed left-[50%] top-[50%] z-50 w-full max-w-[75%] translate-x-[-50%] translate-y-[-50%] rounded-card-lg border bg-background p-5 shadow-popover outline-none md:w-full"
     >
       <Dialog.Title
         class="flex w-full items-center justify-center text-lg font-semibold tracking-tight"
@@ -183,7 +186,7 @@
       >
       <Separator.Root class="-mx-5 mb-6 mt-3 block h-px bg-muted" />
       <Dialog.Description class="text-sm text-foreground-alt">
-        <NXMCard nxm_data={$NXMData} />
+        {#if !$NXMDialog}<NXMCard nxm_data_d={nxm_data_d}/>{/if}
       </Dialog.Description>
     </Dialog.Content>
   </Dialog.Portal>
