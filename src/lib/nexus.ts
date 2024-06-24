@@ -15,3 +15,5 @@ export const NexusConfig = persisted('nexus', {
 })
 
 export const dialogOpened = writable(false)
+export const NXMDialog = writable(false)
+export const NXMData = writable({})

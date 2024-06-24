@@ -9,18 +9,26 @@
   import Settings from "lucide-svelte/icons/settings"
   import Banana from "lucide-svelte/icons/banana"
   import CloudUpload from "lucide-svelte/icons/cloud-upload";
-  import { Tooltip, Dialog, Separator, Label } from "bits-ui";
+  import { Tooltip, Dialog, Separator, Label, Button as BitsButton } from "bits-ui";
   import { goto } from "$app/navigation";
   import Button from "$lib/ui/button.svelte";
   import { getClient, ResponseType } from '@tauri-apps/api/http';
   import { invoke } from "@tauri-apps/api"
 
-  import { NexusConfig, dialogOpened } from "$lib/nexus";
+  import { fade } from "svelte/transition";
+
+  import { NexusConfig, dialogOpened, NXMDialog, NXMData } from "$lib/nexus";
   import { open } from '@tauri-apps/api/shell';
 
-  import { steamPath, uidev, banana } from "$lib/settings"
+  import { steamPath, uidev, banana } from "$lib/settings";
+
+  import { once, listen } from '@tauri-apps/api/event';
+
+  import parseNxmUrl from "$lib/nxm_parser";
 
   import { gsap } from "gsap";
+
+  import NXMCard from "$lib/components/nxmcard.svelte";
 
   if (!$NexusConfig.apiKey) {
     nexusConnect()
@@ -81,6 +89,14 @@
       gsap.to(".bananaCursor", {duration: 0.05, x: e.clientX-(bananaCursor.clientWidth/2), y: e.clientY-(bananaCursor.clientHeight/2), ease: "power2.inOut"})
     }
   }
+
+  const unlisten = listen('scheme-request-received', (event) => {
+    console.log(`Got NXM link. Payload: ${event.payload}`);
+    let nxm_data = parseNxmUrl(event.payload)
+    console.log(nxm_data)
+    NXMData.set(NXMData);
+    NXMDialog.set(true);
+  });
 </script>
 
 <div class="bananaCursor fixed pointer-events-none cursor-none" hidden={!$banana} bind:this={bananaCursor}>
@@ -150,3 +166,25 @@
     <slot />
   </div>
 </div>
+
+<Dialog.Root open={$NXMDialog} onOutsideClick={(e) => e.preventDefault()}>
+  <Dialog.Portal>
+    <Dialog.Overlay
+      transition={fade}
+      transitionConfig={{ duration: 150 }}
+      class="fixed inset-0 z-50 bg-black/80"
+    />
+    <Dialog.Content
+      class="fixed left-[50%] top-[50%] z-50 w-full max-w-[94%] translate-x-[-50%] translate-y-[-50%] rounded-card-lg border bg-background p-5 shadow-popover outline-none sm:max-w-[490px] md:w-full"
+    >
+      <Dialog.Title
+        class="flex w-full items-center justify-center text-lg font-semibold tracking-tight"
+        >Download mod from Nexus</Dialog.Title
+      >
+      <Separator.Root class="-mx-5 mb-6 mt-3 block h-px bg-muted" />
+      <Dialog.Description class="text-sm text-foreground-alt">
+        <NXMCard nxm_data={$NXMData} />
+      </Dialog.Description>
+    </Dialog.Content>
+  </Dialog.Portal>
+</Dialog.Root>

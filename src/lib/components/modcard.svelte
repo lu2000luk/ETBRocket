@@ -36,10 +36,6 @@
 
     import { once, listen } from '@tauri-apps/api/event';
 
-    const unlisten = listen('scheme-request-received', (event) => {
-        console.log(`Got NXM link. Payload: ${event.payload}`);
-    });
-
     import { get } from "svelte/store"
     import downloaded from "$lib/downloaded";
     import { linear } from "svelte/easing";
@@ -98,8 +94,6 @@
     }
 
 </script>
-
-
 
 <div class="modcard flex h-30 w-50 bg-background-alt shadow-sm hover:shadow-md rounded-md p-2 m-2" ui-debug={$uidev}>
     <Img src={cover} alt="Mod" />
