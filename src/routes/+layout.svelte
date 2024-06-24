@@ -17,6 +17,8 @@
 
   import { fade } from "svelte/transition";
 
+  import { get } from 'svelte/store'
+
   import { NexusConfig, dialogOpened, NXMDialog, NXMData } from "$lib/nexus";
   import { open } from '@tauri-apps/api/shell';
 
@@ -186,7 +188,7 @@
       >
       <Separator.Root class="-mx-5 mb-6 mt-3 block h-px bg-muted" />
       <Dialog.Description class="text-sm text-foreground-alt">
-        {#if !$NXMDialog}<NXMCard nxm_data_d={nxm_data_d}/>{/if}
+        {#if $NXMDialog}<NXMCard nxm_data_d={nxm_data_d}/>{/if}
       </Dialog.Description>
     </Dialog.Content>
   </Dialog.Portal>

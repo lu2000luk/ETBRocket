@@ -1,11 +1,7 @@
 <script lang="ts">
+    //@ts-ignore
     import Img from "$lib/ui/image.svelte";
     import Button from "$lib/ui/button.svelte";
-    import Download from "lucide-svelte/icons/download";
-    import Loading from "$lib/components/loading.svelte";
-    import Check from "lucide-svelte/icons/check";
-    import Error from "lucide-svelte/icons/circle-x"
-    import { Tooltip, Dialog, Separator, Label } from "bits-ui";
 
     import { getClient, ResponseType } from '@tauri-apps/api/http';
     import { invoke } from "@tauri-apps/api";
@@ -35,7 +31,7 @@
     export let nxm_data_d: NxmModData;
     let nxm_data: NxmModData = nxm_data_d;
 
-    let [name, description, author, cover, loader] = ["Loading", "Loading", "Loading", "../../../../no_image.png", "Loading"];
+    let [name, description, author, cover, loader]: any = ["Loading", "Loading", "Loading", "../../../../no_image.png", "Loading"];
 
     async function loadMetaData() {
         let httpclient = await getClient();
@@ -50,7 +46,7 @@
                 }
             });
 
-        let meta_data = meta.data;
+        let meta_data: any = meta.data;
 
         console.log(meta.data)
 
@@ -102,7 +98,7 @@
                 }
             });
 
-        let download_link_data = download_link.data;
+        let download_link_data: any = download_link.data;
         console.log(download_link_data)
 
         loading = "Checking"
@@ -151,7 +147,12 @@
         console.log("Mod File Saved to "+basePath+folder+"/"+download_link_data.split('#')[0].split('?')[0].split('/').pop())
 
         let dc = get(downloaded)
-        dc.push(name)
+        
+        if (is_interpose) {
+            dc.push("interpose")
+        } else {
+           dc.push(name) 
+        }
 
         downloaded.set(dc)
         

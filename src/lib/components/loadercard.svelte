@@ -5,15 +5,15 @@
     import Download from "lucide-svelte/icons/download";
     import Loading from "$lib/components/loading.svelte";
     import Check from "lucide-svelte/icons/check";
-    import Error from "lucide-svelte/icons/circle-x"
+    import Error from "lucide-svelte/icons/circle-x";
 
     import { steamPath, uidev } from "$lib/settings";
 
     import { writeBinaryFile, copyFile, createDir } from '@tauri-apps/api/fs';
     import { resolveResource } from '@tauri-apps/api/path'
-
     import { getClient, ResponseType } from '@tauri-apps/api/http';
-    import { invoke } from "@tauri-apps/api"
+    import { invoke } from "@tauri-apps/api";
+    import { open } from '@tauri-apps/api/shell';
 
     type Modloader = "interpose" | "ue4ss";
 
@@ -24,7 +24,7 @@
 
     async function installLoader() {
         if (isInterpose) {
-            alert("Interpose modloader installer coming soon cuz nexus...");
+            open("https://www.nexusmods.com/escapethebackrooms/mods/7?tab=files&file_id=50&nmm=1")
             return;
         } else if (isUE4SS) {
             try {
@@ -96,7 +96,7 @@
         <span class="text-l">{@html isInterpose ? "The new and improved Mod Loader for Escape the Backrooms made by Mythical" : "Injectable LUA scripting system. Credit to the UE4SS authors.<br> <a style='color:blue;' href='https://github.com/UE4SS-RE/RE-UE4SS'>Repo</a> <a style='color:blue;' class='ue4sslink' href='https://github.com/UE4SS-RE/RE-UE4SS/blob/main/LICENSE'>License</a> [ Links in-app ]"}</span>
     </div>
     <div class="dwn flex flex-col-reverse p-3" ui-debug={$uidev}>
-        {#if installed || get(downloaded).includes(modloader)}
+        {#if installed || $downloaded.includes(modloader)}
                     <Button disabled bg="secondary">
                         <Check /> Installed
                     </Button>
