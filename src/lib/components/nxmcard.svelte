@@ -78,7 +78,7 @@
             await installMod()
         } catch (err) {
             console.error(err)
-            alert("An error occured while trying to install the mod. If you are a premium user hit me up becouse premium mod downloading support is not implemented yet.")
+            alert("An error occured while trying to install the mod.")
         }
         
     }
@@ -143,14 +143,15 @@
         try {await createDir(basePath+folder)} catch {console.log("No directory was created!")}
 
         loading = "Extracting";
-
+        
+        //@ts-ignore
         const zipFile = new Blob([raw_mod.data]);
         const zip = await unzip(zipFile);
-        const entries = zip.getEntries();
+        const entries = zip.entries;
 
         let extractedFile
 
-        if (entries.length === 1) {
+        if (Object.values(entries).length === 1) {
             const entry = entries[0];
             extractedFile = await entry.blob();
             

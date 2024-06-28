@@ -21,3 +21,7 @@
 <div class="flex justify-center flex-wrap" ui-debug={$uidev}>
     <Button bg="accent-dark" classes="py-5 px-5" click={() => {alert("Coming Soon™️")}}><LogIn size={20} class="pr-1" />Start today</Button>
 </div>
+<br />
+<div class="flex justify-center flex-wrap" ui-debug={$uidev}>
+    <h3 class="text-l">Disclamer: Your mods must follow the rules on the ETBModding Discord. The author of ETB Rocket is not responsible for any mod uploaded.</h3>
+</div>

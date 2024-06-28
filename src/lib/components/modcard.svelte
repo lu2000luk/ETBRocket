@@ -93,14 +93,22 @@
         }   
     }
 
+
+    function limitDescription(desc){
+        if (desc.length > 60) {
+            return desc.slice(0, 60) + "..."
+        } else {
+            return desc.slice(0, 60)
+        }
+    }
 </script>
 
-<div class="modcard flex h-30 w-50 bg-background-alt shadow-sm hover:shadow-md rounded-md p-2 m-2" ui-debug={$uidev}>
+<div class="modcard flex h-30 w-50 bg-background-alt shadow-sm hover:shadow-md rounded-md p-2 m-2 max-w-full" ui-debug={$uidev}>
     <Img src={cover} alt="Mod" />
     <div class="details pl-2 pt-2 w-full flex justify-between">
         <div class="data">
             <h2 class="text-2xl inter f600">{name}</h2>
-            <h4 class="text-l inter f400 overflow-hidden line-clamp-2">{description}</h4>
+            <h4 class="text-l inter f400 overflow-hidden line-clamp-2">{limitDescription(description)}</h4>
             <p class="text-success text-s">{loader} modloader</p>
         </div>
         <div class="download flex items-end" ui-debug={$uidev}>

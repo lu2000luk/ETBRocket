@@ -76,10 +76,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "height": 650,
         "resizable": true,
         "title": "ETB Rocket",
-        "width": 800
+        "width": 1000
       }
     ]
   }
