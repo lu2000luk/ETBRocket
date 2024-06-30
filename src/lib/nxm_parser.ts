@@ -9,7 +9,9 @@ type NxmModData = {
 }
 
 export default function parseNxmUrl(url: string): NxmModData {
-    const [_, modId, fileId, key, expires, userId] = url.match(/nxm:\/\/escapethebackrooms\/mods\/(\d+)\/files\/(\d+)\?key=([^&]+)&expires=(\d+)&user_id=(\d+)/)!;
+    var [_, modId, fileId, key, expires, userId] = url.match(/nxm:\/\/escapethebackrooms\/mods\/(\d+)\/files\/(\d+)\?key=([^&]+)&expires=(\d+)&user_id=(\d+)/)!;
+
+
     return {
         modId: parseInt(modId),
         fileId: parseInt(fileId),

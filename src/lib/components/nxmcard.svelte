@@ -14,7 +14,6 @@
 
     import { get } from "svelte/store";
 
-
     import { unzip } from 'unzipit';
 
     let loading = "Loading";
@@ -64,23 +63,16 @@
             loader = "🍌";
             is_interpose = true;
             foundLoader = true;
+        } else {
+            foundLoader = true
+            is_interpose = false;
+            loader = "Cant ";
         }
 
         loading = "Cleaning up";
 
-        if (!foundLoader) {
-            alert("This mod is currently not supported by ETBRocket");
-            return;
-        }
-
         loading = "Ready to install";
-        try {
-            await installMod()
-        } catch (err) {
-            console.error(err)
-            alert("An error occured while trying to install the mod.")
-        }
-        
+        await installMod()
     }
 
      async function installMod() {
@@ -89,9 +81,8 @@
 
         let steam_game_loc = $steamPath+"/steamapps/common/EscapeTheBackrooms"
         let basePath = steam_game_loc + "/EscapeTheBackrooms/Content/Paks/"
-
         let downloadurl = "https://api.nexusmods.com/v1/games/escapethebackrooms/mods/"+nxm_data.modId+"/files/"+nxm_data.fileId+"/download_link.json?key="+nxm_data.key+"&expires="+nxm_data.expires+"&user_id="+nxm_data.userId
-
+        
         loading = "Getting info"
 
         let download_link = await httpclient.get(downloadurl, {
@@ -145,33 +136,71 @@
         loading = "Extracting";
         
         //@ts-ignore
-        const zipFile = new Blob([raw_mod.data]);
-        const zip = await unzip(zipFile);
-        const entries = zip.entries;
+        let fileBlob = new Blob([new Uint8Array(raw_mod.data)])
 
-        let extractedFile
+        let fileBlobUrl = URL.createObjectURL(fileBlob)
 
-        if (Object.values(entries).length === 1) {
-            const entry = entries[0];
-            extractedFile = await entry.blob();
-            
-        } else {
-            console.error("Invalid zip file");
+        let { entries } = await unzip(fileBlobUrl);
+
+        let zipdataname = Object.keys(entries)[0]
+        let zipfolder;
+
+        if (zipdataname.split("/").length > 1) {
+            zipfolder = zipdataname.split("/")[0]
         }
+
+        switch (zipfolder) {
+            case "interpose_mods":
+                folder = "interpose_mods"
+                loader = "Interpose"
+                break;
+            case "LogicMods":
+                folder = "LogicMods"
+                loader = "UE4SS"
+                break;
+            case "~mods":
+                folder = "~mods"
+                loader = "Unknown"
+                break;
+            case "basefolder":
+                folder = ""
+                loader = "Unknown"
+                break;
+            default:
+                if (is_interpose) {
+                    folder = ""
+                } else {
+                    folder = "~mods"
+                    loader = "Unknown"
+                }
+                break;
+        }
+
+        console.log(entries[zipdataname])
+
+        // Comment to whoever will look at the code:
+        // Its a mess i know. But, it somehow work. It seems that it dosent if you look at the files but at the same time
+        // for some wierd magic, it works. I dont know why. I dont know how. But it works. So, i will leave it as is.
+        // If you think you have a better solution go to the Pull Request and make a PR. I will be happy to merge it.
+
+        //@ts-ignore
+        let modfile = entries[zipdataname]._reader.blob
 
         loading = "Writing";
 
-        await writeBinaryFile(basePath+folder+"/"+download_link_data.split('#')[0].split('?')[0].split('/').pop(), await extractedFile.buffer());
+        await writeBinaryFile(basePath+folder+"/"+zipdataname, new Uint8Array(await modfile.arrayBuffer()));
 
         loading = "Cleaning";
-        console.log("Mod File Saved to "+basePath+folder+"/"+download_link_data.split('#')[0].split('?')[0].split('/').pop())
+        console.log("Mod File Saved to "+basePath+folder+"/"+zipdataname)
 
         let dc = get(downloaded)
 
         if (is_interpose) {
+            // @ts-ignore
             dc.push("interpose")
         } else {
-           dc.push(name) 
+            // @ts-ignore
+            dc.push(name) 
         }
 
         downloaded.set(dc)
