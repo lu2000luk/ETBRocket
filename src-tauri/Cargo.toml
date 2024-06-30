@@ -2,7 +2,7 @@
 name = "app"
 version = "0.1.0"
 description = "A Tauri App"
-authors = ["you"]
+authors = ["lu2000luk"]
 license = ""
 repository = ""
 default-run = "app"
@@ -17,6 +17,7 @@ tauri-build = { version = "1.5.1", features = [] }
 [dependencies]
 serde_json = "1.0"
 winreg = "0.52"
+tauri-plugin-deep-link = "0.1.2"
 serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.6.1", features = [ "shell-open", "path-all", "http-all", "devtools", "dialog-all", "fs-all"] }
 reqwest = { version = "0.11", features = ["json"] }

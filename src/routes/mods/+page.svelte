@@ -7,20 +7,15 @@
     import { getClient, ResponseType } from '@tauri-apps/api/http';
 
     function limitStringTo240WordsAndRemoveBr(inputString) {
-    // Remove any <br /> tags
-    let stringWithoutBr = inputString.replace(/<br\s*\/?>/gi, ' ');
+        let stringWithoutBr = inputString.replace(/<br\s*\/?>/gi, ' ');
+        let wordsArray = stringWithoutBr.split(/\s+/);
 
-    // Split the string into an array of words
-    let wordsArray = stringWithoutBr.split(/\s+/);
+        if (wordsArray.length > 240) {
+            wordsArray = wordsArray.slice(0, 240);
+        }
 
-    // Ensure the string is limited to 240 words
-    if (wordsArray.length > 240) {
-        wordsArray = wordsArray.slice(0, 240);
+        return wordsArray.join(' ');
     }
-
-    // Join the array back into a string and return
-    return wordsArray.join(' ');
-}
 
     async function nexusGetTrending() {
         if ($NexusConfig.apiKey === false) {return [];}
@@ -35,11 +30,10 @@
             }
         });
 
-
         let mappedMods = [];
 
         await nmods.data.forEach(async element => {
-            if (element.name === "Interpose Map Loader" ||element.name === "Interpose Mod Loader" || element.contains_adult_content === true) {return;}
+            if (element.name === "Interpose Map Loader" || element.name === "Interpose Mod Loader" || element.contains_adult_content === true) {return;}
 
             mappedMods.push({
                 cover: element.picture_url,

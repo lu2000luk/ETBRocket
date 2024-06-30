@@ -1,28 +1,81 @@
 <script>
 // @ts-nocheck
 
-
   import "$lib/app.css"
   import Mod from "lucide-svelte/icons/blocks";
   import Loaders from "lucide-svelte/icons/unplug";
   import SideIcon from "$lib/components/sideicon.svelte";
   import Rocket from "lucide-svelte/icons/rocket";
   import Settings from "lucide-svelte/icons/settings"
-  import { Tooltip, Dialog, Separator, Label } from "bits-ui";
+  import Banana from "lucide-svelte/icons/banana"
+  import CloudUpload from "lucide-svelte/icons/cloud-upload";
+  import { Tooltip, Dialog, Separator, Label, Button as BitsButton } from "bits-ui";
   import { goto } from "$app/navigation";
   import Button from "$lib/ui/button.svelte";
   import { getClient, ResponseType } from '@tauri-apps/api/http';
   import { invoke } from "@tauri-apps/api"
 
-  import { NexusConfig, dialogOpened } from "$lib/nexus";
+  import { fade } from "svelte/transition";
+
+  import { get } from 'svelte/store'
+
+  import { NexusConfig, dialogOpened, NXMDialog, NXMData } from "$lib/nexus";
   import { open } from '@tauri-apps/api/shell';
 
-  import { steamPath } from "$lib/settings"
+  import { steamPath, uidev, banana } from "$lib/settings";
+
+  import { once, listen } from '@tauri-apps/api/event';
+
+  import parseNxmUrl from "$lib/nxm_parser";
+
+  import { gsap } from "gsap";
+
+  import NXMCard from "$lib/components/nxmcard.svelte";
 
   if (!$NexusConfig.apiKey) {
-    dialogOpened.set(true);
-  } else {
-    dialogOpened.set(false);
+    nexusConnect()
+  }
+
+  const application_slug = "etbrocket"
+
+  function nexusConnect() {
+    let socket = new WebSocket("wss://sso.nexusmods.com");
+
+    socket.onopen = function (event) {
+      console.log("CONNECTION TO SSO OPENED");
+
+      var uuid = $NexusConfig.uuid;
+      var token = $NexusConfig.token;
+
+      const data = {
+              id: uuid,
+              token: token,
+              protocol: 2
+          };
+
+      socket.send(JSON.stringify(data));
+
+      console.log("https://www.nexusmods.com/sso?id="+uuid+"&application="+application_slug)
+
+      open("https://www.nexusmods.com/sso?id="+uuid+"&application="+application_slug);
+    }
+
+    socket.onmessage = function(event) {
+      let response = JSON.parse(event.data);
+
+      if (response && response.success) {
+        if (response.data.hasOwnProperty('connection_token')) {
+          NexusConfig.set({...$NexusConfig, token: response.data.connection_token})
+        }
+
+        if (response.data.hasOwnProperty('api_key')) {
+            console.log("API Key Received: " + response.data.api_key);
+            NexusConfig.set({...$NexusConfig, apiKey: response.data.api_key})
+        }
+      } else {
+        alert("Error while logging in!")
+      }
+    }
   }
 
   if (!$steamPath) {
@@ -31,34 +84,38 @@
 
   let apiKeyInput = $NexusConfig.apiKey ? $NexusConfig.apiKey : "";
 
-  async function setKey(key=apiKeyInput) {
-    console.log("Checking key... ")
+  let bananaCursor;
 
-    const httpclient = await getClient();
-    const checker = await httpclient.get('https://api.nexusmods.com/v1/users/validate.json', {
-      responseType: ResponseType.JSON,
-      headers: {
-        apiKey: key
-      }
-    });
-
-    if (checker.status !== 200) {
-      alert("Invalid key! Make sure you copied the personal API Key.")
-    } else {
-      NexusConfig.set({...$NexusConfig, apiKey: key})
-      alert("Key saved!")
-      dialogOpened.set(false);
-      location.reload()
+  if ($banana) {
+    onmousemove = (e) => {
+      gsap.to(".bananaCursor", {duration: 0.05, x: e.clientX-(bananaCursor.clientWidth/2), y: e.clientY-(bananaCursor.clientHeight/2), ease: "power2.inOut"})
     }
   }
+
+  const unlisten = listen('scheme-request-received', (event) => {
+    console.log(`Got NXM link. Payload: ${event.payload}`);
+    let nxm_data = parseNxmUrl(event.payload)
+    console.log(nxm_data)
+    nxm_data_d = nxm_data;
+    NXMData.set(NXMData);
+    NXMDialog.set(true);
+  });
+
+  let nxm_data_d;
 </script>
 
-<div class="flex h-screen">
-  <div class="sidebar w-18 bg-background-alt flex flex-col justify-between">
-      <div class="topitems flex flex-col ">
+<div class="bananaCursor fixed pointer-events-none cursor-none" hidden={!$banana} bind:this={bananaCursor}>
+  <div class="bananaCircle flex bg-slate-600 bg-opacity-25 z-50 cursor-none rounded-full backdrop-blur-md p-2 justify-center items-center">
+    <Banana />
+  </div>
+</div>
+
+<div class="flex h-screen" style="{$banana ? "cursor: none;" : ""}" ui-debug={$uidev}>
+  <div class="sidebar w-18 bg-background-alt flex flex-col justify-between" ui-debug={$uidev}>
+      <div class="topitems flex flex-col" ui-debug={$uidev}>
         <Tooltip.Root>
           <Tooltip.Trigger>
-            <SideIcon click={() => {goto("../../../../")}}><Rocket /></SideIcon>
+            <SideIcon click={() => {goto("../../../../")}}>{#if $banana}<Banana />{:else}<Rocket />{/if}</SideIcon>
           </Tooltip.Trigger>
           <Tooltip.Content side="right">
             <div class="bg-secondary rounded-md ml-1 transition-all p-2">
@@ -87,7 +144,17 @@
           </Tooltip.Content>
         </Tooltip.Root>
       </div>
-      <div class="bottomitems">
+      <div class="bottomitems flex flex-col" ui-debug={$uidev}>
+        <Tooltip.Root>
+          <Tooltip.Trigger>
+            <SideIcon click={() => {goto("../../../../creators")}}><CloudUpload /></SideIcon>
+          </Tooltip.Trigger>
+          <Tooltip.Content side="right">
+            <div class="bg-secondary rounded-md ml-1 transition-all p-2">
+              Creator Hub
+            </div>
+          </Tooltip.Content>
+        </Tooltip.Root>
         <Tooltip.Root>
           <Tooltip.Trigger>
             <SideIcon click={() => {goto("../../../../settings")}}><Settings /></SideIcon>
@@ -100,61 +167,29 @@
         </Tooltip.Root>
       </div>
   </div>
-  <div class="m-2 w-full overflow-y-auto">
+  <div class="m-2 w-full overflow-y-auto" ui-debug={$uidev}>
     <slot />
   </div>
 </div>
 
-<Dialog.Root bind:open={$dialogOpened}>
+<Dialog.Root open={$NXMDialog} onOutsideClick={(e) => e.preventDefault()}>
   <Dialog.Portal>
     <Dialog.Overlay
+      transition={fade}
+      transitionConfig={{ duration: 150 }}
       class="fixed inset-0 z-50 bg-black/80"
     />
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
     <Dialog.Content
-      class="fixed left-[50%] top-[50%] z-50 w-full max-w-[94%] translate-x-[-50%] translate-y-[-50%] rounded-md border-none bg-background p-5 shadow-popover outline-none sm:max-w-[490px] md:w-full"
+      class="fixed left-[50%] top-[50%] z-50 w-full max-w-[75%] translate-x-[-50%] translate-y-[-50%] rounded-card-lg border bg-background p-5 shadow-popover outline-none md:w-full"
     >
       <Dialog.Title
         class="flex w-full items-center justify-center text-lg font-semibold tracking-tight"
-        >Add Nexus API key</Dialog.Title
+        >Download mod from Nexus</Dialog.Title
       >
-      <Separator.Root class="-mx-5 mb-6 mt-5 block h-px bg-muted" />
-      <!-- svelte-ignore missing-declaration -->
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <!-- svelte-ignore a11y-no-static-element-interactions -->
-      <!-- svelte-ignore a11y-missing-attribute -->
-      <!-- svelte-ignore a11y-missing-attribute -->
+      <Separator.Root class="-mx-5 mb-6 mt-3 block h-px bg-muted" />
       <Dialog.Description class="text-sm text-foreground-alt">
-        <!-- svelte-ignore missing-declaration -->
-        Adding a Nexus API key will make you able to download mods such as Interpose directly from this launcher.<br>Get a key 
-        <a class="underline text-blue-600 cursor-pointer" on:click={() => open("https://next.nexusmods.com/settings/api-keys")}
-         >in this page</a>, at the bottom of it you'll find a button to get a personal API Key.<br>
-         <i>Your key will be stored locally and wont be shared with no one</i>
+        {#if $NXMDialog}<NXMCard nxm_data_d={nxm_data_d}/>{/if}
       </Dialog.Description>
-      <div class="flex flex-col items-start gap-1 pb-11 pt-7">
-        <Label.Root for="apiKey" class="text-sm font-medium">Nexus Personal API Key:</Label.Root
-        >
-        <div class="relative w-full">
-          <input
-            id="apiKey"
-            class="h-input w-full border-none bg-background-alt rounded focus:outline-none p-2"
-            placeholder="API Key"
-            type="password"
-            autocomplete="off"
-            bind:value={apiKeyInput}
-          />
-        </div>
-      </div>
-      <div class="flex">
-          <!-- svelte-ignore a11y-no-static-element-interactions -->
-          <div on:click={() => {setKey()}}>
-            <Button bg="secondary">Save</Button>
-          </div>
-        
-          <Dialog.Close>
-            <Button bg="error">Ignore for now</Button>
-          </Dialog.Close>
-      </div>
     </Dialog.Content>
   </Dialog.Portal>
 </Dialog.Root>
