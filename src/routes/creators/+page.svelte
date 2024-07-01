@@ -15,7 +15,7 @@
 </div>
 <br>
 <div class="flex justify-center flex-wrap" ui-debug={$uidev}>
-    <h3 class="text-xl">Here you can upload your mods to our service and give users the best experience downnloading your mods!</h3>
+    <h3 class="text-xl">Here you can upload your mods to our service and give users the best experience downloading your mods!</h3>
 </div>
 <br>
 <div class="flex justify-center flex-wrap" ui-debug={$uidev}>
