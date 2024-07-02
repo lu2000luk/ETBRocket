@@ -108,7 +108,7 @@
                 }
             });
         
-        loading = "Foldering"
+        loading = "Checking"
         
         let folder = ""
 
@@ -129,9 +129,6 @@
                 folder = ""
                 break;
         }
-
-        invoke("expand_scope", { folderPath: basePath })
-        try {await createDir(basePath+folder)} catch {console.log("No directory was created!")}
 
         loading = "Extracting";
         
@@ -185,6 +182,11 @@
 
         //@ts-ignore
         let modfile = entries[zipdataname]._reader.blob
+
+        loading = "Foldering";
+
+        invoke("expand_scope", { folderPath: basePath })
+        try {await createDir(basePath+folder)} catch {console.log("No directory was created!")}
 
         loading = "Writing";
 
