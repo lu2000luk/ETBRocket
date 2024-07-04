@@ -186,7 +186,7 @@
         // If you think you have a better solution go to the Pull Request and make a PR. I will be happy to merge it.
 
         //@ts-ignore
-        let modfile = entries[zipdataname]._reader.blob
+        let modfile = await entries[zipdataname].arrayBuffer()
 
         loading = "Foldering";
 
@@ -195,7 +195,7 @@
 
         loading = "Writing";
 
-        await writeBinaryFile(basePath+folder+"/"+zipdataname.split("/").at(-1), new Uint8Array(await modfile.arrayBuffer()));
+        await writeBinaryFile(basePath+folder+"/"+zipdataname.split("/").at(-1), modfile);
 
         loading = "Cleaning";
         console.log("Mod File Saved to "+basePath+folder+"/"+zipdataname)
