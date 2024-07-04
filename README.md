@@ -16,3 +16,6 @@ Then you'll suffer for my shitty code but it should build the app, for any quest
 For the ones that understand JS package managers & runtimes PNPM should not be necessary but to avoid any errors, since i use it, i suggest using it but it should also work with NPM, Yarn and Bun (The runtime should be supported)
 
 Github Actions will also build the app for you automatically when i merge to the release branch
+
+# Nexus Mods ZIP Format
+https://etbr.linkh.at/zip-format or https://painted-look-b2a.notion.site/ETB-Rocket-ZIP-Format-2532b58a82d1421e84
