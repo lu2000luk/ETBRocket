@@ -72,7 +72,12 @@
         loading = "Cleaning up";
 
         loading = "Ready to install";
-        await installMod()
+
+        try {
+            await installMod()
+        } catch (err) {
+            alert(err)
+        }
     }
 
      async function installMod() {
@@ -108,7 +113,7 @@
                 }
             });
         
-        loading = "Foldering"
+        loading = "Checking"
         
         let folder = ""
 
@@ -129,9 +134,6 @@
                 folder = ""
                 break;
         }
-
-        invoke("expand_scope", { folderPath: basePath })
-        try {await createDir(basePath+folder)} catch {console.log("No directory was created!")}
 
         loading = "Extracting";
         
@@ -186,9 +188,14 @@
         //@ts-ignore
         let modfile = entries[zipdataname]._reader.blob
 
+        loading = "Foldering";
+
+        invoke("expand_scope", { folderPath: basePath })
+        try {await createDir(basePath+folder)} catch {console.log("No directory was created!")}
+
         loading = "Writing";
 
-        await writeBinaryFile(basePath+folder+"/"+zipdataname, new Uint8Array(await modfile.arrayBuffer()));
+        await writeBinaryFile(basePath+folder+"/"+zipdataname.split("/").at(-1), new Uint8Array(await modfile.arrayBuffer()));
 
         loading = "Cleaning";
         console.log("Mod File Saved to "+basePath+folder+"/"+zipdataname)

@@ -54,9 +54,25 @@
             const basePath = steam_game_loc + "/EscapeTheBackrooms/Content/Paks/"
 
             if (nexus) {
-                alert("In this beta you'll need to manually download files from nexus to install them.")
-                loading = "error";
-                installed = false;
+                loading = "Loading";
+
+                let file_data_url = "https://api.nexusmods.com/v1/games/escapethebackrooms/mods/"+mod_id+"/files.json?category=update%2Cmain";
+
+                let file_data_http = await httpclient.get(file_data_url, {
+                responseType: ResponseType.JSON,
+                headers: {
+                        apiKey: $NexusConfig.apiKey
+                    }
+                });
+
+                let file_data = file_data_http.data;
+
+                console.log(file_data);
+
+                loading = "Opening"
+
+                open("https://www.nexusmods.com/escapethebackrooms/mods/"+mod_id+"?tab=files&file_id="+file_data.files.at(-1).file_id+"&nmm=1")
+
                 return;
             }
 
@@ -114,21 +130,21 @@
         <div class="download flex items-end" ui-debug={$uidev}>
             <div class="flex items-center" ui-debug={$uidev}>
                 <p class="px-1">Made by {author}</p>
-                {#if installed || get(downloaded).includes(downloadLink)}
+                {#if installed || get(downloaded).includes(downloadLink) || $downloaded.includes(name)}
                     <Button disabled bg="secondary">
                         <Check /> Installed
                     </Button>
                 {:else}
                     {#if loading !== "error" && loading}
-                        <Button disabled bg="primary-dark">
+                        <Button disabled bg="primary">
                             <Loading /> {loading}
                         </Button>
                     {:else if loading === "error"}
-                        <Button click={() => {downloadMod(downloadLink, folder)}} bg="error" >
+                        <Button click={() => {downloadMod(downloadLink, folder)}} bg="error">
                             <Error size={20} class="pr-1" /> Error
                         </Button>
                     {:else}
-                        <Button click={() => {downloadMod(downloadLink, folder)}} >
+                        <Button click={() => {downloadMod(downloadLink, folder)}} bg="primary-dark">
                             <Download size={20} class="pr-1" /> Download
                         </Button>
                     {/if}
