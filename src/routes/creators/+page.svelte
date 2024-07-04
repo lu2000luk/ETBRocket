@@ -19,7 +19,7 @@
 </div>
 <br>
 <div class="flex justify-center flex-wrap" ui-debug={$uidev}>
-    <a href="../creators/login"><Button bg="accent-dark" classes="py-5 px-5"><LogIn size={20} class="pr-1" />Start today</Button></a>
+    <a href="../creators/coming_soon"><Button bg="accent-dark" classes="py-5 px-5"><LogIn size={20} class="pr-1" />Start today</Button></a>
 </div>
 <br />
 <div class="flex justify-center flex-wrap" ui-debug={$uidev}>

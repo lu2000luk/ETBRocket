@@ -72,7 +72,12 @@
         loading = "Cleaning up";
 
         loading = "Ready to install";
-        await installMod()
+
+        try {
+            await installMod()
+        } catch (err) {
+            alert(err)
+        }
     }
 
      async function installMod() {
@@ -190,7 +195,7 @@
 
         loading = "Writing";
 
-        await writeBinaryFile(basePath+folder+"/"+zipdataname, new Uint8Array(await modfile.arrayBuffer()));
+        await writeBinaryFile(basePath+folder+"/"+zipdataname.split("/").at(-1), new Uint8Array(await modfile.arrayBuffer()));
 
         loading = "Cleaning";
         console.log("Mod File Saved to "+basePath+folder+"/"+zipdataname)

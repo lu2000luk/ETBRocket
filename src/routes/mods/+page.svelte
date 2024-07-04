@@ -6,6 +6,8 @@
     import { NexusConfig } from "$lib/nexus"
     import { getClient, ResponseType } from '@tauri-apps/api/http';
 
+    let loadingModsPhase = 0;
+
     function limitStringTo240WordsAndRemoveBr(inputString) {
         let stringWithoutBr = inputString.replace(/<br\s*\/?>/gi, ' ');
         let wordsArray = stringWithoutBr.split(/\s+/);
@@ -17,25 +19,71 @@
         return wordsArray.join(' ');
     }
 
-    async function nexusGetTrending() {
+    async function NexusGetOthers() {
+        let modz = [];
         if ($NexusConfig.apiKey === false) {return [];}
 
         const httpclient = await getClient();
+
         console.info("HTTPClient Loaded")
 
-        const nmods = await httpclient.get("https://api.nexusmods.com/v1/games/escapethebackrooms/mods/trending.json", {
+        loadingModsPhase++;
+
+        let latest_added = await httpclient.get("https://api.nexusmods.com/v1/games/escapethebackrooms/mods/latest_added.json", {
             responseType: ResponseType.JSON,
             headers: {
                 apiKey: $NexusConfig.apiKey
             }
         });
 
-        let mappedMods = [];
+        loadingModsPhase++;
 
-        await nmods.data.forEach(async element => {
+        let latest_updated = await httpclient.get("https://api.nexusmods.com/v1/games/escapethebackrooms/mods/latest_updated.json", {
+            responseType: ResponseType.JSON,
+            headers: {
+                apiKey: $NexusConfig.apiKey
+            }
+        });
+
+        loadingModsPhase++;
+
+        let trending = await httpclient.get("https://api.nexusmods.com/v1/games/escapethebackrooms/mods/trending.json", {
+            responseType: ResponseType.JSON,
+            headers: {
+                apiKey: $NexusConfig.apiKey
+            }
+        });
+
+        loadingModsPhase++;
+
+        let latest_added_mods = latest_added.data;
+        let latest_updated_mods = latest_updated.data;
+        let trending_mods = trending.data;
+
+        console.log(latest_added_mods)
+        console.log(latest_updated_mods)
+        console.log(trending_mods)
+
+        console.log("Indexing mods")
+
+        function isModAlreadyScanned(mod) {
+            for (let i = 0; i < modz.length; i++) {
+                if (modz[i].mod_id === mod.mod_id) {
+                    return true;
+                }
+            }
+
+            console.log("Mod not found in array: "+mod)
+
+            return false;
+        }
+
+        await latest_added_mods.forEach(async element => {
             if (element.name === "Interpose Map Loader" || element.name === "Interpose Mod Loader" || element.contains_adult_content === true) {return;}
 
-            mappedMods.push({
+            if (isModAlreadyScanned(element)) {return;}
+
+            modz.push({
                 cover: element.picture_url,
                 modVersion: element.version,
                 nexus: true,
@@ -46,9 +94,40 @@
             })
         });
 
-        console.log(mappedMods)
+        await latest_updated_mods.forEach(async element => {
+            if (element.name === "Interpose Map Loader" || element.name === "Interpose Mod Loader" || element.contains_adult_content === true) {return;}
 
-        return mappedMods
+            if (isModAlreadyScanned(element)) {return;}
+
+            modz.push({
+                cover: element.picture_url,
+                modVersion: element.version,
+                nexus: true,
+                description: limitStringTo240WordsAndRemoveBr(element.summary),
+                author: element.author,
+                name: element.name,
+                mod_id: element.mod_id
+            })
+        });
+        await trending_mods.forEach(async element => {
+            if (element.name === "Interpose Map Loader" || element.name === "Interpose Mod Loader" || element.contains_adult_content === true) {return;}
+
+            if (isModAlreadyScanned(element)) {return;}
+
+            modz.push({
+                cover: element.picture_url,
+                modVersion: element.version,
+                nexus: true,
+                description: limitStringTo240WordsAndRemoveBr(element.summary),
+                author: element.author,
+                name: element.name,
+                mod_id: element.mod_id
+            })
+        });
+
+        loadingModsPhase++;
+
+        return modz;
     }
 </script>
 
@@ -56,8 +135,8 @@
     <ModCard {...mod} />
 {/each}
 
-{#await nexusGetTrending()}
-    Loading...
+{#await NexusGetOthers()}
+    Loading more... [{loadingModsPhase}/5]
 {:then nlmods} 
     {#each nlmods as mod}
         <ModCard {...mod} />
