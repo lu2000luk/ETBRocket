@@ -10,7 +10,7 @@
     import { steamPath, uidev } from "$lib/settings";
     import { NexusConfig, NXMDialog } from "$lib/nexus";
 
-    import downloaded from "$lib/downloaded";
+    import downloaded, { downloaded_path } from "$lib/downloaded";
 
     import { get } from "svelte/store";
 
@@ -200,18 +200,27 @@
         loading = "Cleaning";
         console.log("Mod File Saved to "+basePath+folder+"/"+zipdataname)
 
-        let dc = get(downloaded)
+        let dc: any[string] = get(downloaded)
 
         if (is_interpose) {
             // @ts-ignore
-            dc.push("interpose")
+            if (!dc.includes("interpose")) {
+                dc.push("interpose")
+            }
+            
         } else {
             // @ts-ignore
-            dc.push(name) 
+            if (!dc.includes(name)) {
+                dc.push(name)
+            }
         }
 
         downloaded.set(dc)
-        
+
+        let ddc: any = get(downloaded_path)
+        ddc[name] = folder+"/"+zipdataname.split("/").at(-1)
+        downloaded_path.set(ddc)
+    
         loading = "Done!";
 
         setTimeout(() => {
