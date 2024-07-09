@@ -8,6 +8,9 @@
   import Rocket from "lucide-svelte/icons/rocket";
   import Settings from "lucide-svelte/icons/settings"
   import Banana from "lucide-svelte/icons/banana"
+  import Wrench from "lucide-svelte/icons/wrench"
+  import Package from "lucide-svelte/icons/package"
+
   import CloudUpload from "lucide-svelte/icons/cloud-upload";
   import { Tooltip, Dialog, Separator, Label, Button as BitsButton } from "bits-ui";
   import { goto } from "$app/navigation";
@@ -123,6 +126,7 @@
             </div>
           </Tooltip.Content>
         </Tooltip.Root>
+
         <Tooltip.Root>
           <Tooltip.Trigger>
             <SideIcon click={() => {goto("../../../../mods")}}><Mod /></SideIcon>
@@ -133,6 +137,7 @@
             </div>
           </Tooltip.Content>
         </Tooltip.Root>
+
         <Tooltip.Root>
           <Tooltip.Trigger>
             <SideIcon click={() => {goto("../../../../loaders")}}><Loaders /></SideIcon>
@@ -143,8 +148,33 @@
             </div>
           </Tooltip.Content>
         </Tooltip.Root>
+
+        <Tooltip.Root>
+          <Tooltip.Trigger>
+            <SideIcon click={() => {goto("../../../../packages")}}><Package /></SideIcon>
+          </Tooltip.Trigger>
+          <Tooltip.Content side="right">
+            <div class="bg-secondary rounded-md ml-1 transition-all p-2">
+              Packages
+            </div>
+          </Tooltip.Content>
+        </Tooltip.Root>
       </div>
+
+
+
       <div class="bottomitems flex flex-col" ui-debug={$uidev}>
+        <Tooltip.Root>
+          <Tooltip.Trigger>
+            <SideIcon click={() => {goto("../../../../creators/coming_soon")}}><Wrench /></SideIcon>
+          </Tooltip.Trigger>
+          <Tooltip.Content side="right">
+            <div class="bg-secondary rounded-md ml-1 transition-all p-2">
+              Tools
+            </div>
+          </Tooltip.Content>
+        </Tooltip.Root>
+
         <Tooltip.Root>
           <Tooltip.Trigger>
             <SideIcon click={() => {goto("../../../../creators")}}><CloudUpload /></SideIcon>
@@ -155,6 +185,7 @@
             </div>
           </Tooltip.Content>
         </Tooltip.Root>
+
         <Tooltip.Root>
           <Tooltip.Trigger>
             <SideIcon click={() => {goto("../../../../settings")}}><Settings /></SideIcon>

@@ -4,7 +4,7 @@
     import Button from "$lib/ui/button.svelte"
 
     import { dialogOpened } from "$lib/nexus"
-    import { steamPath, uidev, banana } from "$lib/settings";
+    import { steamPath, uidev, banana, particle_count } from "$lib/settings";
 
     import { getClient, ResponseType } from '@tauri-apps/api/http';
     import { NexusConfig } from "$lib/nexus";
@@ -45,5 +45,10 @@
             />
           </Switch.Root>
         </div>
+        <br />
+        <p class="text-2xl" id="steampath">Max Particle Count</p>
+        <input type="number" class="h-input w-full border-none bg-background-alt rounded focus:outline-none p-2" placeholder="150" min={5} max={10000} bind:value={$particle_count}>
+        <br />
+        <br />
 </div>
 
