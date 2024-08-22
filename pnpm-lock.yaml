@@ -26,6 +26,9 @@ importers:
       lucide-svelte:
         specifier: ^0.363.0
         version: 0.363.0(svelte@4.2.18)
+      svelte-canvas-confetti:
+        specifier: ^0.6.0
+        version: 0.6.0
       svelte-persisted-store:
         specifier: ^0.9.4
         version: 0.9.4(svelte@4.2.18)
@@ -1090,6 +1093,9 @@ packages:
   supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  svelte-canvas-confetti@0.6.0:
+    resolution: {integrity: sha512-Q/jp48oVvwLCkuwQAQS6JJk1g4CGHRtXVrsESze/zsTzkhsn8NLM5GezwmEbXg9ok8tdMugpjpOiWMlNh5zSlw==}
 
   svelte-check@3.8.4:
     resolution: {integrity: sha512-61aHMkdinWyH8BkkTX9jPLYxYzaAAz/FK/VQqdr2FiCQQ/q04WCwDlpGbHff1GdrMYTmW8chlTFvRWL9k0A8vg==}
@@ -2165,6 +2171,8 @@ snapshots:
       ts-interface-checker: 0.1.13
 
   supports-preserve-symlinks-flag@1.0.0: {}
+
+  svelte-canvas-confetti@0.6.0: {}
 
   svelte-check@3.8.4(postcss-load-config@4.0.2(postcss@8.4.39))(postcss@8.4.39)(svelte@4.2.18):
     dependencies:

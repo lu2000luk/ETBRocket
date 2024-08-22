@@ -131,13 +131,17 @@
     }
 </script>
 
+<p class="text-xl">Best ETB Rocket mods:</p>
 {#each Mods as mod}
     <ModCard {...mod} />
 {/each}
 
 {#await NexusGetOthers()}
     Loading more... [{loadingModsPhase}/5]
-{:then nlmods} 
+    <br />
+    Warning: ETB Rocket is using the Nexus API to get the latest mods and download them. This mean that if this section is not loading it is because the Nexus API is down or you reached your API rate limit. In that case you might need to wait up to a day.
+{:then nlmods}
+    <p class="text-xl">Best Nexus Mods:</p>
     {#each nlmods as mod}
         <ModCard {...mod} />
     {/each}

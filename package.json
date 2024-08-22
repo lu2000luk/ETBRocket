@@ -32,6 +32,7 @@
     "crypto-js": "^4.2.0",
     "gsap": "^3.12.5",
     "lucide-svelte": "^0.363.0",
+    "svelte-canvas-confetti": "^0.6.0",
     "svelte-persisted-store": "^0.9.4",
     "unzipit": "^1.4.3"
   }

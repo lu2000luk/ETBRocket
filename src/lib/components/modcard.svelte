@@ -154,7 +154,7 @@
 </script>
 
 <div class="modcard flex h-30 w-50 bg-background-alt shadow-sm hover:shadow-md rounded-md p-2 m-2 max-w-full" ui-debug={$uidev}>
-    <Img src={cover} alt="Mod" />
+    <Img src={cover ? cover : "../../../../no_image.png"} alt="Mod" />
     <div class="details pl-2 pt-2 w-full flex justify-between">
         <div class="data">
             <h2 class="text-2xl inter f600">{name}</h2>
