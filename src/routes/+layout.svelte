@@ -35,10 +35,6 @@
 
   import NXMCard from "$lib/components/nxmcard.svelte";
 
-  if (!$NexusConfig.apiKey) {
-    nexusConnect()
-  }
-
   const application_slug = "etbrocket"
 
   function nexusConnect() {
@@ -74,6 +70,7 @@
         if (response.data.hasOwnProperty('api_key')) {
             console.log("API Key Received: " + response.data.api_key);
             NexusConfig.set({...$NexusConfig, apiKey: response.data.api_key})
+            is_nexus_popup_required = false;
         }
       } else {
         alert("Error while logging in!")
@@ -105,6 +102,12 @@
   });
 
   let nxm_data_d;
+
+  let is_nexus_popup_required = false;
+
+  if (!$NexusConfig.apiKey) {
+    is_nexus_popup_required = true;
+  }
 </script>
 
 <div class="bananaCursor fixed pointer-events-none cursor-none" hidden={!$banana} bind:this={bananaCursor}>
@@ -223,4 +226,29 @@
       </Dialog.Description>
     </Dialog.Content>
   </Dialog.Portal>
+</Dialog.Root>
+
+<Dialog.Root open={is_nexus_popup_required} onOutsideClick={(e) => e.preventDefault()} class="rounded">
+    <Dialog.Portal>
+      <Dialog.Overlay
+        transition={fade}
+        transitionConfig={{ duration: 150 }}
+        class="fixed inset-0 z-50 bg-black/80" />
+      <Dialog.Content class="fixed left-[50%] top-[50%] z-50 w-full max-w-[75%] translate-x-[-50%] translate-y-[-50%] rounded-card-lg border bg-background p-5 shadow-popover outline-none md:w-full">
+        <Dialog.Title class="flex w-full items-center justify-center text-2xl font-semibold tracking-tight">
+          Nexus Login Required
+        </Dialog.Title>
+        <Dialog.Description class="text-sm text-foreground-alt flex flex-col items-center justify-center">
+          <p class="flex justify-center text-xl items-center">
+            Your NexusMods account needs to be connected to <span class="flex items-center p-2 mx-2 rounded-md select-none bg-gradient-to-r from-violet-600 to-indigo-600 transition-all hover:2shadow-xl ">ETB <Rocket class="mx-1" /></span>
+          </p>
+          <i class="flex justify-center font-italic">
+            Click the button below to open a browser page to authorize us.
+          </i>
+                 <div class="flex justify-center mt-4">
+                <Button click={nexusConnect} bg="secondary" classes="p-2 text-lg">Connect to NexusMods</Button>
+            </div>
+        </Dialog.Description>
+      </Dialog.Content>
+    </Dialog.Portal>
 </Dialog.Root>

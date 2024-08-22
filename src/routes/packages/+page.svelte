@@ -10,7 +10,7 @@
 
 <div class="flex justify-center mt-2">
     <p>
-        With the ETBRPI (I know, what a name) system. With this new <Beta /> system your huge mods (over 1gb) will be downloaded with.
+        With the ETBRPI (I know, what a name) system. With this new <Beta /> system your huge mods (over 1gb) will be download at blazingly fast speeds!
     </p>
 </div>
 
