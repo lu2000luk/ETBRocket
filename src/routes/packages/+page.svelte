@@ -4,7 +4,7 @@
 
 <div class="flex justify-center mt-8">
     <p class="text-3xl mb-2">
-        ETB Rocket <span class="py-1 text-4xl bg-gradient-to-r from-green-600 to-yellow-600 cursor-pointer flex items-center justify-center bg-black bg-opacity-35 rounded-lg">&pi;</span>
+        ETB Rocket <span class="py-1 text-4xl select-none bg-gradient-to-r from-green-600 to-yellow-600 cursor-pointer flex items-center justify-center bg-black bg-opacity-35 rounded-lg">&pi;</span>
     </p>
 </div>
 
