@@ -3,14 +3,14 @@
 </script>
 
 <div class="flex justify-center mt-8">
-    <p class="text-3xl">
-        ETB Rocket Packages Initiative
+    <p class="text-3xl mb-2">
+        ETB Rocket <span class="py-1 text-4xl bg-gradient-to-r from-green-600 to-yellow-600 cursor-pointer flex items-center justify-center bg-black bg-opacity-35 rounded-lg">&pi;</span>
     </p>
 </div>
 
 <div class="flex justify-center mt-2">
     <p>
-        With the ETBRPI (I know, what a name) system. With this new <Beta /> system your huge mods (over 1gb) will be download at blazingly fast speeds!
+        With the ETBR-PI system. With this new <Beta /> system your huge mods (over 1gb) will be download at blazingly fast speeds!
     </p>
 </div>
 
