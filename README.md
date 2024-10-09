@@ -20,4 +20,4 @@ For the ones that understand JS package managers & runtimes PNPM should not be n
 Github Actions will also build the app for you automatically when i merge to the release branch
 
 # Nexus Mods ZIP Format
-https://etbr.linkh.at/zip-format or https://lu2000luk.notion.site/ETB-Rocket-ZIP-Format-2532b58a82d1421e84976493322cd162?pvs=74
+Docs at https://etbr.linkh.at/zip-format or [Direct Link](https://lu2000luk.notion.site/ETB-Rocket-ZIP-Format-2532b58a82d1421e84976493322cd162?pvs=74)
