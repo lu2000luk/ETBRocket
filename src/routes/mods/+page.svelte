@@ -9,14 +9,18 @@
     let loadingModsPhase = 0;
 
     function limitStringTo240WordsAndRemoveBr(inputString) {
-        let stringWithoutBr = inputString.replace(/<br\s*\/?>/gi, ' ');
-        let wordsArray = stringWithoutBr.split(/\s+/);
+        try {
+            let stringWithoutBr = inputString.replace(/<br\s*\/?>/gi, ' ');
+            let wordsArray = stringWithoutBr.split(/\s+/);
 
-        if (wordsArray.length > 240) {
-            wordsArray = wordsArray.slice(0, 240);
+            if (wordsArray.length > 240) {
+                wordsArray = wordsArray.slice(0, 240);
+            }
+            return wordsArray.join(' ');
+        } catch {
+            // Limit to 400 chars
+            return false;
         }
-
-        return wordsArray.join(' ');
     }
 
     async function NexusGetOthers() {
@@ -83,11 +87,14 @@
 
             if (isModAlreadyScanned(element)) {return;}
 
+            let description = limitStringTo240WordsAndRemoveBr(element.summary);
+            if (description === false) {return;}
+
             modz.push({
                 cover: element.picture_url,
                 modVersion: element.version,
                 nexus: true,
-                description: limitStringTo240WordsAndRemoveBr(element.summary),
+                description: description,
                 author: element.author,
                 name: element.name,
                 mod_id: element.mod_id
@@ -98,12 +105,14 @@
             if (element.name === "Interpose Map Loader" || element.name === "Interpose Mod Loader" || element.contains_adult_content === true) {return;}
 
             if (isModAlreadyScanned(element)) {return;}
+            let description = limitStringTo240WordsAndRemoveBr(element.summary);
+            if (description === false) {return;}
 
             modz.push({
                 cover: element.picture_url,
                 modVersion: element.version,
                 nexus: true,
-                description: limitStringTo240WordsAndRemoveBr(element.summary),
+                description: description,
                 author: element.author,
                 name: element.name,
                 mod_id: element.mod_id
@@ -113,12 +122,14 @@
             if (element.name === "Interpose Map Loader" || element.name === "Interpose Mod Loader" || element.contains_adult_content === true) {return;}
 
             if (isModAlreadyScanned(element)) {return;}
+            let description = limitStringTo240WordsAndRemoveBr(element.summary);
+            if (description === false) {return;}
 
             modz.push({
                 cover: element.picture_url,
                 modVersion: element.version,
                 nexus: true,
-                description: limitStringTo240WordsAndRemoveBr(element.summary),
+                description: description,
                 author: element.author,
                 name: element.name,
                 mod_id: element.mod_id

@@ -52,7 +52,7 @@
             console.log("HTTP Client loaded!")
             
             const steam_game_loc = $steamPath+"/steamapps/common/EscapeTheBackrooms"
-            const basePath = steam_game_loc + "/EscapeTheBackrooms/Content/Paks/"
+            const basePathError = steam_game_loc + "/EscapeTheBackrooms/Content/Paks/"
 
             if (nexus) {
                 loading = "Loading";
@@ -88,16 +88,17 @@
             console.log("File downloaded!")
 
             loading = "Foldering";
-            invoke("expand_scope", { folderPath: basePath })
 
-            try {await createDir(basePath+folder)} catch {console.log("No directory was created!")}
+            try {await createDir("", { dir: BaseDirectory.App })} catch {console.log("No BASE directory was created!")}
+            try {await createDir("mods", { dir: BaseDirectory.App })} catch {console.log("No MODS directory was created!")}
+            try {await createDir("mods/"+folder, { dir: BaseDirectory.App })} catch {console.log("No MODLOADER directory was created!")}
 
             loading = "Writing";
             console.log("Writing binary file")
-            await writeBinaryFile(basePath+folder+"/"+url.split('#')[0].split('?')[0].split('/').pop(), new Uint8Array(file.data));
+            await writeBinaryFile("mods/"+folder+"/"+url.split('#')[0].split('?')[0].split('/').pop(), new Uint8Array(file.data), { dir: BaseDirectory.App });
 
             loading = "Cleaning";
-            console.log("Mod File Saved to "+basePath+folder+"/"+url.split('#')[0].split('?')[0].split('/').pop())
+            console.log("Mod File Saved to "+folder+"/"+url.split('#')[0].split('?')[0].split('/').pop())
 
             if (!reinstalling)  {
                 let dc = get(downloaded)

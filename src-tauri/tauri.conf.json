@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "ETB Rocket",
-    "version": "0.9.65"
+    "version": "0.9.7"
   },
   "tauri": {
     "allowlist": {
@@ -18,7 +18,7 @@
       },
       "fs": {
         "all": true,
-        "scope": ["**", "**/*", "/**/*","$RESOURCE/*"]
+        "scope": ["**", "**/*", "/**/*","$RESOURCE/*", "$APP/*", "$APP/*/*", "$APP/*/*/*"]
       },
       "shell": {
         "open": true

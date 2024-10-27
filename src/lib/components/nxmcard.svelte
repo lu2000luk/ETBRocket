@@ -66,7 +66,7 @@
         } else {
             foundLoader = true
             is_interpose = false;
-            loader = "Cant ";
+            loader = "Unknown";
         }
 
         loading = "Cleaning up";
@@ -76,6 +76,8 @@
         try {
             await installMod()
         } catch (err) {
+            console.log("Error installing mod:")
+            console.error(err)
             alert(err)
         }
     }
@@ -180,25 +182,21 @@
 
         console.log(entries[zipdataname])
 
-        // Comment to whoever will look at the code:
-        // Its a mess i know. But, it somehow work. It seems that it dosent if you look at the files but at the same time
-        // for some wierd magic, it works. I dont know why. I dont know how. But it works. So, i will leave it as is.
-        // If you think you have a better solution go to the Pull Request and make a PR. I will be happy to merge it.
-
         //@ts-ignore
         let modfile = await entries[zipdataname].arrayBuffer()
 
         loading = "Foldering";
 
-        invoke("expand_scope", { folderPath: basePath })
-        try {await createDir(basePath+folder)} catch {console.log("No directory was created!")}
+        try {await createDir("", { dir: BaseDirectory.App })} catch {console.log("No BASE directory was created!")}
+        try {await createDir("mods", { dir: BaseDirectory.App })} catch {console.log("No MODS directory was created!")}
+        try {await createDir("mods/"+folder, { dir: BaseDirectory.App })} catch {console.log("No MODLOADER directory was created!")}
 
         loading = "Writing";
 
-        await writeBinaryFile(basePath+folder+"/"+zipdataname.split("/").at(-1), modfile);
+        await writeBinaryFile("mods/"+folder+"/"+zipdataname.split("/").at(-1), modfile, { dir: BaseDirectory.App });
 
         loading = "Cleaning";
-        console.log("Mod File Saved to "+basePath+folder+"/"+zipdataname)
+        console.log("Mod File Saved to mods/"+folder+"/"+zipdataname)
 
         let dc: any[string] = get(downloaded)
 
