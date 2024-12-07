@@ -3,7 +3,13 @@ This CURRENTLY IN BETA mod installer will simplify the process of installing Esc
 
 Ignore the fact that my code sucks (;
 
+# Download the app
+If you are on the [ETB Modding Discord](https://discord.gg/6qHbEWnMS2) you can get the release link from the #project-releases channel.
+You can find the releases in the Releases tab on the github repository side. Click on Tags and select the version you want. Download the .MSI installer
+
 # Building the app by yourself
+⚠ Only do this if you dont trust the direct .MSI or you want to help me develop ETB Rocket. Building the app is not easy for non-developers.
+
 Step 1: Download repo (Possibly the [Release Branch](https://github.com/lu2000luk/ETBRocket/tree/release))
 
 Step 2: Install Rust, NodeJS (comes with NPM) and PNPM
